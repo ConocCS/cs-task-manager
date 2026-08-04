@@ -7,6 +7,8 @@ import { TaskListView } from './components/task/TaskListView'
 import { TaskBoardView } from './components/task/TaskBoardView'
 import { TaskDetailPanel } from './components/task/TaskDetailPanel'
 import { ClaudeGuideModal } from './components/layout/ClaudeGuideModal'
+import { LoginPage } from './components/layout/LoginPage'
+import { useAuth } from './hooks/useAuth'
 import { useProjects } from './hooks/useProjects'
 import { useTasks } from './hooks/useTasks'
 import { useSections } from './hooks/useSections'
@@ -16,6 +18,7 @@ import type { Task } from './lib/database.types'
 import { Loader2 } from 'lucide-react'
 
 function App() {
+  const { user, loading: authLoading, error: authError, signInWithGoogle, signOut } = useAuth()
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null)
   const [viewMode, setViewMode] = useState<ViewMode>('list')
   const [selectedTask, setSelectedTask] = useState<Task | null>(null)
@@ -128,12 +131,16 @@ function App() {
     setSelectedTask(null)
   }, [deleteTask])
 
-  if (projectsLoading) {
+  if (authLoading || projectsLoading) {
     return (
       <div className="flex items-center justify-center h-full">
         <Loader2 size={32} className="animate-spin text-[var(--color-primary)]" />
       </div>
     )
+  }
+
+  if (!user) {
+    return <LoginPage onSignIn={signInWithGoogle} error={authError} />
   }
 
   return (
@@ -142,12 +149,14 @@ function App() {
         <Sidebar
           projects={projects}
           selectedProjectId={selectedProjectId}
+          userEmail={user.email ?? null}
           onSelectProject={setSelectedProjectId}
           onCreateProject={async (name) => {
             const p = await createProject(name)
             if (p) setSelectedProjectId(p.id)
           }}
           onOpenClaudeGuide={() => setShowClaudeGuide(true)}
+          onSignOut={signOut}
         />
       }
     >

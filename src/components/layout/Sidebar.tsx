@@ -1,17 +1,19 @@
 import { useState } from 'react'
-import { LayoutGrid, Plus, ChevronDown, Terminal } from 'lucide-react'
+import { LayoutGrid, Plus, ChevronDown, Terminal, LogOut } from 'lucide-react'
 import type { Project } from '../../lib/database.types'
 import { cn } from '../../lib/utils'
 
 interface SidebarProps {
   projects: Project[]
   selectedProjectId: string | null
+  userEmail: string | null
   onSelectProject: (id: string) => void
   onCreateProject: (name: string) => void
   onOpenClaudeGuide: () => void
+  onSignOut: () => void
 }
 
-export function Sidebar({ projects, selectedProjectId, onSelectProject, onCreateProject, onOpenClaudeGuide }: SidebarProps) {
+export function Sidebar({ projects, selectedProjectId, userEmail, onSelectProject, onCreateProject, onOpenClaudeGuide, onSignOut }: SidebarProps) {
   const [isCreating, setIsCreating] = useState(false)
   const [newName, setNewName] = useState('')
 
@@ -92,14 +94,24 @@ export function Sidebar({ projects, selectedProjectId, onSelectProject, onCreate
         )}
       </nav>
 
-      <div className="px-3 py-4 border-t border-white/10">
+      <div className="px-3 py-3 border-t border-white/10 space-y-1">
         <button
           onClick={onOpenClaudeGuide}
-          className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm text-white/50 hover:text-white hover:bg-[var(--color-sidebar-hover)] transition-all"
+          className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-white/50 hover:text-white hover:bg-[var(--color-sidebar-hover)] transition-all"
         >
-          <Terminal size={16} />
+          <Terminal size={14} />
           Claude連携方法
         </button>
+        <button
+          onClick={onSignOut}
+          className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-white/50 hover:text-white hover:bg-[var(--color-sidebar-hover)] transition-all"
+        >
+          <LogOut size={14} />
+          ログアウト
+        </button>
+        {userEmail && (
+          <div className="px-3 py-1 text-xs text-white/30 truncate">{userEmail}</div>
+        )}
       </div>
     </aside>
   )
