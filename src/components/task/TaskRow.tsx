@@ -1,4 +1,4 @@
-import { Check, ArrowUp, ArrowDown, Minus, Calendar } from 'lucide-react'
+import { Check, ArrowUp, ArrowDown, Minus, Calendar, Eye } from 'lucide-react'
 import { format, isBefore, startOfToday } from 'date-fns'
 import type { Task, Member } from '../../lib/database.types'
 import { STATUS_CONFIG, PRIORITY_CONFIG } from '../../constants'
@@ -24,6 +24,7 @@ const PriorityIcon = ({ priority }: { priority: Task['priority'] }) => {
 
 export function TaskRow({ task, members, onToggleComplete, onClick }: TaskRowProps) {
   const assignee = members.find(m => m.id === task.assignee_id)
+  const waitingOn = members.find(m => m.id === task.waiting_on_id)
   const statusConfig = STATUS_CONFIG[task.status]
   const isOverdue = task.due_date && task.status !== 'completed' && isBefore(new Date(task.due_date), startOfToday())
   const isCompleted = task.status === 'completed'
@@ -51,6 +52,15 @@ export function TaskRow({ task, members, onToggleComplete, onClick }: TaskRowPro
 
       <div className="w-7">
         {assignee && <Avatar name={assignee.name} color={assignee.avatar_color} size="sm" />}
+      </div>
+
+      <div className="w-24">
+        {waitingOn && (
+          <span className="inline-flex items-center gap-1 text-xs text-amber-700 bg-amber-50 border border-amber-200 px-1.5 py-0.5 rounded-md">
+            <Eye size={11} />
+            {waitingOn.name}
+          </span>
+        )}
       </div>
 
       <div className="w-20 text-right">

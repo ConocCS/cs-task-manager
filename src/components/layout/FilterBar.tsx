@@ -13,6 +13,7 @@ export interface FilterState {
   assigneeId: string // 'all' or member id
   priority: TaskPriority | 'all'
   status: TaskStatus | 'all'
+  waitingOnId: string // 'all' or member id
 }
 
 export interface SortState {
@@ -38,34 +39,49 @@ export function FilterBar({ filter, sort, members, onFilterChange, onSortChange 
           絞り込み
         </span>
 
+        <label className="text-xs text-[var(--color-muted)]">担当</label>
         <select
           value={filter.assigneeId}
           onChange={e => onFilterChange({ ...filter, assigneeId: e.target.value })}
           className="text-xs border border-[var(--color-border)] rounded-lg px-2 py-1.5 bg-white text-[var(--color-foreground)] focus:outline-none focus:ring-1 focus:ring-[var(--color-primary)]/40"
         >
-          <option value="all">担当: 全員</option>
+          <option value="all">全員</option>
           {members.map(m => (
-            <option key={m.id} value={m.id}>担当: {m.name}</option>
+            <option key={m.id} value={m.id}>{m.name}</option>
           ))}
         </select>
 
+        <label className="text-xs text-[var(--color-muted)]">優先度</label>
         <select
           value={filter.priority}
           onChange={e => onFilterChange({ ...filter, priority: e.target.value as TaskPriority | 'all' })}
           className="text-xs border border-[var(--color-border)] rounded-lg px-2 py-1.5 bg-white text-[var(--color-foreground)] focus:outline-none focus:ring-1 focus:ring-[var(--color-primary)]/40"
         >
           {FILTER_PRIORITY_OPTIONS.map(opt => (
-            <option key={opt.value} value={opt.value}>優先度: {opt.label}</option>
+            <option key={opt.value} value={opt.value}>{opt.label}</option>
           ))}
         </select>
 
+        <label className="text-xs text-[var(--color-muted)]">状態</label>
         <select
           value={filter.status}
           onChange={e => onFilterChange({ ...filter, status: e.target.value as TaskStatus | 'all' })}
           className="text-xs border border-[var(--color-border)] rounded-lg px-2 py-1.5 bg-white text-[var(--color-foreground)] focus:outline-none focus:ring-1 focus:ring-[var(--color-primary)]/40"
         >
           {FILTER_STATUS_OPTIONS.map(opt => (
-            <option key={opt.value} value={opt.value}>状態: {opt.label}</option>
+            <option key={opt.value} value={opt.value}>{opt.label}</option>
+          ))}
+        </select>
+
+        <label className="text-xs text-[var(--color-muted)]">確認先</label>
+        <select
+          value={filter.waitingOnId}
+          onChange={e => onFilterChange({ ...filter, waitingOnId: e.target.value })}
+          className="text-xs border border-[var(--color-border)] rounded-lg px-2 py-1.5 bg-white text-[var(--color-foreground)] focus:outline-none focus:ring-1 focus:ring-[var(--color-primary)]/40"
+        >
+          <option value="all">全員</option>
+          {members.map(m => (
+            <option key={m.id} value={m.id}>{m.name}</option>
           ))}
         </select>
       </div>

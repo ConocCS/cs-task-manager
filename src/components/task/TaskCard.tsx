@@ -1,6 +1,6 @@
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import { Calendar, ArrowUp, ArrowDown, Minus } from 'lucide-react'
+import { Calendar, ArrowUp, ArrowDown, Minus, Eye } from 'lucide-react'
 import { format, isBefore, startOfToday } from 'date-fns'
 import type { Task, Member } from '../../lib/database.types'
 import { PRIORITY_CONFIG } from '../../constants'
@@ -34,6 +34,7 @@ export function TaskCard({ task, members, onClick }: TaskCardProps) {
   }
 
   const assignee = members.find(m => m.id === task.assignee_id)
+  const waitingOn = members.find(m => m.id === task.waiting_on_id)
   const isOverdue = task.due_date && task.status !== 'completed' && isBefore(new Date(task.due_date), startOfToday())
 
   return (
@@ -49,6 +50,15 @@ export function TaskCard({ task, members, onClick }: TaskCardProps) {
       )}
     >
       <div className="text-sm font-medium text-[var(--color-foreground)] mb-2.5">{task.title}</div>
+
+      {waitingOn && (
+        <div className="mb-2">
+          <span className="inline-flex items-center gap-1 text-xs text-amber-700 bg-amber-50 border border-amber-200 px-1.5 py-0.5 rounded-md">
+            <Eye size={11} />
+            {waitingOn.name}
+          </span>
+        </div>
+      )}
 
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">

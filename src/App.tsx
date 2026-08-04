@@ -26,6 +26,7 @@ function App() {
     assigneeId: 'all',
     priority: 'all',
     status: 'all',
+    waitingOnId: 'all',
   })
   const [sort, setSort] = useState<SortState>({
     field: 'default',
@@ -59,6 +60,9 @@ function App() {
     }
     if (filter.status !== 'all') {
       active = active.filter(t => t.status === filter.status)
+    }
+    if (filter.waitingOnId !== 'all') {
+      active = active.filter(t => t.waiting_on_id === filter.waitingOnId)
     }
 
     // ソート適用

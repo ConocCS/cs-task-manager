@@ -90,6 +90,7 @@ export type Database = {
           assignee_id: string | null
           due_date: string | null
           completed_at: string | null
+          waiting_on_id: string | null
           sort_order: number
           created_at: string
           updated_at: string
@@ -103,6 +104,7 @@ export type Database = {
           status?: TaskStatus
           priority?: TaskPriority
           assignee_id?: string | null
+          waiting_on_id?: string | null
           due_date?: string | null
           completed_at?: string | null
           sort_order?: number
@@ -116,6 +118,7 @@ export type Database = {
           status?: TaskStatus
           priority?: TaskPriority
           assignee_id?: string | null
+          waiting_on_id?: string | null
           due_date?: string | null
           completed_at?: string | null
           sort_order?: number

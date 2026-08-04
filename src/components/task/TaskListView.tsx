@@ -30,6 +30,7 @@ export function TaskListView({
         <div className="w-5" />
         <div className="flex-1">タスク名</div>
         <div className="w-7">担当</div>
+        <div className="w-24">確認先</div>
         <div className="w-20 text-right">期日</div>
         <div className="w-8 text-center">優先</div>
         <div className="w-16">状態</div>

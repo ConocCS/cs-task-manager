@@ -29,6 +29,7 @@ export function TaskBoardView({ tasks, members, onTaskClick, onUpdateTask, filte
       if (filter.assigneeId !== 'all' && t.assignee_id !== filter.assigneeId) return false
       if (filter.priority !== 'all' && t.priority !== filter.priority) return false
       if (filter.status !== 'all' && t.status !== filter.status) return false
+      if (filter.waitingOnId !== 'all' && t.waiting_on_id !== filter.waitingOnId) return false
       return true
     })
 

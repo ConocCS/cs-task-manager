@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
-import { Trash2, Calendar, User, Flag, Layers, AlignLeft } from 'lucide-react'
+import { Trash2, Calendar, User, Flag, Layers, AlignLeft, Eye } from 'lucide-react'
 import type { Task, Member, Section, TaskStatus, TaskPriority } from '../../lib/database.types'
 import { STATUS_CONFIG, PRIORITY_CONFIG, STATUS_ORDER, PRIORITY_ORDER } from '../../constants'
 import { SlidePanel } from '../ui/SlidePanel'
@@ -96,6 +96,31 @@ export function TaskDetailPanel({ task, members, sections, onClose, onUpdate, on
               ))}
             </select>
             {assignee && <Avatar name={assignee.name} color={assignee.avatar_color} size="sm" />}
+          </div>
+
+          <div className="flex items-center gap-3">
+            <div
+              className="w-24 flex items-center gap-2 text-sm text-[var(--color-muted)] cursor-help"
+              title="他メンバーに確認を依頼中の場合に設定。確認が完了したら「なし」に戻してください。"
+            >
+              <Eye size={16} />
+              確認先
+            </div>
+            <select
+              value={task.waiting_on_id ?? ''}
+              onChange={e => onUpdate(task.id, { waiting_on_id: e.target.value || null })}
+              className="text-sm px-2.5 py-1.5 border border-[var(--color-border)] rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30"
+            >
+              <option value="">なし</option>
+              {members.map(m => (
+                <option key={m.id} value={m.id}>{m.name}</option>
+              ))}
+            </select>
+            {task.waiting_on_id && (
+              <span className="text-xs text-amber-700 bg-amber-50 border border-amber-200 px-1.5 py-0.5 rounded-md">
+                確認待ち
+              </span>
+            )}
           </div>
 
           <div className="flex items-center gap-3">
