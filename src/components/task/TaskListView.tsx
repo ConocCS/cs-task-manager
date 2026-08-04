@@ -29,7 +29,7 @@ export function TaskListView({
       <div className="flex items-center gap-3 px-8 py-2.5 text-xs font-semibold text-[var(--color-primary)] tracking-wider border-b border-[var(--color-primary)]/10 bg-white sticky top-0 z-10">
         <div className="w-5" />
         <div className="flex-1">タスク名</div>
-        <div className="w-7">担当</div>
+        <div className="w-16">担当</div>
         <div className="w-24">確認先</div>
         <div className="w-20 text-right">期日</div>
         <div className="w-8 text-center">優先</div>

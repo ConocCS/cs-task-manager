@@ -3,7 +3,6 @@ import { format, isBefore, startOfToday } from 'date-fns'
 import type { Task, Member } from '../../lib/database.types'
 import { STATUS_CONFIG, PRIORITY_CONFIG } from '../../constants'
 import { Badge } from '../ui/Badge'
-import { Avatar } from '../ui/Avatar'
 import { cn } from '../../lib/utils'
 
 interface TaskRowProps {
@@ -50,8 +49,10 @@ export function TaskRow({ task, members, onToggleComplete, onClick }: TaskRowPro
         {task.title}
       </span>
 
-      <div className="w-7">
-        {assignee && <Avatar name={assignee.name} color={assignee.avatar_color} size="sm" />}
+      <div className="w-16">
+        {assignee && (
+          <span className="text-xs text-[var(--color-foreground)]">{assignee.name}</span>
+        )}
       </div>
 
       <div className="w-24">

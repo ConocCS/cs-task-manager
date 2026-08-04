@@ -4,7 +4,6 @@ import { Calendar, ArrowUp, ArrowDown, Minus, Eye } from 'lucide-react'
 import { format, isBefore, startOfToday } from 'date-fns'
 import type { Task, Member } from '../../lib/database.types'
 import { PRIORITY_CONFIG } from '../../constants'
-import { Avatar } from '../ui/Avatar'
 import { cn } from '../../lib/utils'
 
 interface TaskCardProps {
@@ -76,7 +75,7 @@ export function TaskCard({ task, members, onClick }: TaskCardProps) {
           </span>
         </div>
 
-        {assignee && <Avatar name={assignee.name} color={assignee.avatar_color} size="sm" />}
+        {assignee && <span className="text-xs text-[var(--color-muted)]">{assignee.name}</span>}
       </div>
     </div>
   )
