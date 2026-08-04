@@ -1,0 +1,79 @@
+import { Check, ArrowUp, ArrowDown, Minus, Calendar } from 'lucide-react'
+import { format, isBefore, startOfToday } from 'date-fns'
+import type { Task, Member } from '../../lib/database.types'
+import { STATUS_CONFIG, PRIORITY_CONFIG } from '../../constants'
+import { Badge } from '../ui/Badge'
+import { Avatar } from '../ui/Avatar'
+import { cn } from '../../lib/utils'
+
+interface TaskRowProps {
+  task: Task
+  members: Member[]
+  onToggleComplete: (id: string) => void
+  onClick: (task: Task) => void
+}
+
+const PriorityIcon = ({ priority }: { priority: Task['priority'] }) => {
+  const size = 14
+  switch (priority) {
+    case 'high': return <ArrowUp size={size} className="text-red-500" />
+    case 'medium': return <Minus size={size} className="text-orange-500" />
+    case 'low': return <ArrowDown size={size} className="text-stone-400" />
+  }
+}
+
+export function TaskRow({ task, members, onToggleComplete, onClick }: TaskRowProps) {
+  const assignee = members.find(m => m.id === task.assignee_id)
+  const statusConfig = STATUS_CONFIG[task.status]
+  const isOverdue = task.due_date && task.status !== 'completed' && isBefore(new Date(task.due_date), startOfToday())
+  const isCompleted = task.status === 'completed'
+
+  return (
+    <div
+      className="group flex items-center gap-3 px-8 py-2.5 hover:bg-white/60 cursor-pointer border-b border-[var(--color-border)]/50 transition-all"
+      onClick={() => onClick(task)}
+    >
+      <button
+        onClick={e => { e.stopPropagation(); onToggleComplete(task.id) }}
+        className={cn(
+          'w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all',
+          isCompleted
+            ? 'bg-emerald-500 border-emerald-500 text-white'
+            : 'border-stone-300 hover:border-[var(--color-primary)] hover:bg-orange-50'
+        )}
+      >
+        {isCompleted && <Check size={12} />}
+      </button>
+
+      <span className={cn('flex-1 text-sm truncate', isCompleted && 'line-through text-stone-400')}>
+        {task.title}
+      </span>
+
+      <div className="w-7">
+        {assignee && <Avatar name={assignee.name} color={assignee.avatar_color} size="sm" />}
+      </div>
+
+      <div className="w-20 text-right">
+        {task.due_date && (
+          <span className={cn(
+            'text-xs flex items-center justify-end gap-1',
+            isOverdue ? 'text-red-500 font-medium' : 'text-[var(--color-muted)]'
+          )}>
+            <Calendar size={12} />
+            {format(new Date(task.due_date), 'M/d')}
+          </span>
+        )}
+      </div>
+
+      <div className="w-8 flex justify-center" title={PRIORITY_CONFIG[task.priority].label}>
+        <PriorityIcon priority={task.priority} />
+      </div>
+
+      <div className="w-16">
+        <Badge bgClass={statusConfig.bgClass} textClass={statusConfig.textClass}>
+          {statusConfig.label}
+        </Badge>
+      </div>
+    </div>
+  )
+}
