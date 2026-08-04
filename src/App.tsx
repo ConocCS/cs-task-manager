@@ -5,6 +5,7 @@ import { Header, type ViewMode } from './components/layout/Header'
 import { TaskListView } from './components/task/TaskListView'
 import { TaskBoardView } from './components/task/TaskBoardView'
 import { TaskDetailPanel } from './components/task/TaskDetailPanel'
+import { ClaudeGuideModal } from './components/layout/ClaudeGuideModal'
 import { useProjects } from './hooks/useProjects'
 import { useTasks } from './hooks/useTasks'
 import { useSections } from './hooks/useSections'
@@ -16,6 +17,7 @@ function App() {
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null)
   const [viewMode, setViewMode] = useState<ViewMode>('list')
   const [selectedTask, setSelectedTask] = useState<Task | null>(null)
+  const [showClaudeGuide, setShowClaudeGuide] = useState(false)
 
   const { projects, loading: projectsLoading, createProject } = useProjects()
   const { tasks, loading: tasksLoading, createTask, updateTask, deleteTask, toggleComplete } = useTasks(selectedProjectId)
@@ -71,6 +73,7 @@ function App() {
             const p = await createProject(name)
             if (p) setSelectedProjectId(p.id)
           }}
+          onOpenClaudeGuide={() => setShowClaudeGuide(true)}
         />
       }
     >
@@ -123,6 +126,7 @@ function App() {
           </div>
         </div>
       )}
+      <ClaudeGuideModal open={showClaudeGuide} onClose={() => setShowClaudeGuide(false)} />
     </AppLayout>
   )
 }

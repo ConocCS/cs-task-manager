@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { LayoutGrid, Plus, ChevronDown } from 'lucide-react'
+import { LayoutGrid, Plus, ChevronDown, Terminal } from 'lucide-react'
 import type { Project } from '../../lib/database.types'
 import { cn } from '../../lib/utils'
 
@@ -8,9 +8,10 @@ interface SidebarProps {
   selectedProjectId: string | null
   onSelectProject: (id: string) => void
   onCreateProject: (name: string) => void
+  onOpenClaudeGuide: () => void
 }
 
-export function Sidebar({ projects, selectedProjectId, onSelectProject, onCreateProject }: SidebarProps) {
+export function Sidebar({ projects, selectedProjectId, onSelectProject, onCreateProject, onOpenClaudeGuide }: SidebarProps) {
   const [isCreating, setIsCreating] = useState(false)
   const [newName, setNewName] = useState('')
 
@@ -90,6 +91,16 @@ export function Sidebar({ projects, selectedProjectId, onSelectProject, onCreate
           </div>
         )}
       </nav>
+
+      <div className="px-3 py-4 border-t border-white/10">
+        <button
+          onClick={onOpenClaudeGuide}
+          className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm text-white/50 hover:text-white hover:bg-[var(--color-sidebar-hover)] transition-all"
+        >
+          <Terminal size={16} />
+          Claude連携方法
+        </button>
+      </div>
     </aside>
   )
 }
