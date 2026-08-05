@@ -99,9 +99,9 @@ export function TaskBoardView({ tasks, members, onTaskClick, onUpdateTask, filte
   }
 
   return (
-    <div className="flex-1 overflow-x-auto overflow-y-hidden p-6">
+    <div className="flex-1 overflow-x-auto overflow-y-hidden p-8">
       <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-        <div className="flex gap-4 h-full">
+        <div className="flex gap-5 h-full">
           {STATUS_ORDER.map(status => (
             <StatusColumn
               key={status}

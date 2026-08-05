@@ -44,11 +44,11 @@ export function TaskCard({ task, members, onClick }: TaskCardProps) {
       {...listeners}
       onClick={() => onClick(task)}
       className={cn(
-        'bg-white border border-[var(--color-border)] rounded-xl p-3.5 cursor-pointer hover:shadow-md hover:border-[var(--color-primary)]/30 transition-all',
+        'bg-white border border-[var(--color-border)] rounded-xl p-4 cursor-pointer hover:shadow-md hover:border-[var(--color-primary)]/30 transition-all',
         isDragging && 'opacity-50 shadow-lg rotate-2'
       )}
     >
-      <div className="text-sm font-medium text-[var(--color-foreground)] mb-2.5">{task.title}</div>
+      <div className="text-sm font-medium text-[var(--color-foreground)] mb-3">{task.title}</div>
 
       {waitingOn && (
         <div className="mb-2">

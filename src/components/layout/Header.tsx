@@ -12,7 +12,7 @@ interface HeaderProps {
 
 export function Header({ projectName, viewMode, onViewModeChange }: HeaderProps) {
   return (
-    <header className="h-14 border-b-2 border-[var(--color-primary)]/20 px-10 flex items-center justify-between shrink-0">
+    <header className="h-16 border-b-2 border-[var(--color-primary)]/20 px-14 flex items-center justify-between shrink-0">
       <h2 className="text-base font-bold text-[var(--color-foreground)] flex items-center gap-2">
         <span className="w-1 h-5 bg-[var(--color-primary)] rounded-full" />
         {projectName}

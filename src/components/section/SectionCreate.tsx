@@ -24,7 +24,7 @@ export function SectionCreate({ onSubmit }: SectionCreateProps) {
     return (
       <button
         onClick={() => setIsEditing(true)}
-        className="flex items-center gap-2 px-10 py-3 text-sm text-[var(--color-primary)]/60 hover:text-[var(--color-primary)] w-full border-t border-[var(--color-border)]/50 transition-colors font-medium"
+        className="flex items-center gap-2.5 px-14 py-3.5 text-sm text-[var(--color-primary)]/60 hover:text-[var(--color-primary)] w-full border-t border-[var(--color-border)]/50 transition-colors font-medium"
       >
         <Plus size={16} />
         セクションを追加
@@ -33,7 +33,7 @@ export function SectionCreate({ onSubmit }: SectionCreateProps) {
   }
 
   return (
-    <div className="px-10 py-3 border-t border-[var(--color-border)]/50">
+    <div className="px-14 py-3.5 border-t border-[var(--color-border)]/50">
       <input
         autoFocus
         type="text"

@@ -28,7 +28,7 @@ export function Sidebar({ projects, selectedProjectId, userEmail, onSelectProjec
 
   return (
     <aside className="w-60 h-full bg-[var(--color-sidebar-bg)] flex flex-col shrink-0">
-      <div className="px-6 py-5 border-b border-white/10">
+      <div className="px-7 py-5 border-b border-white/10">
         <h1 className="text-base font-bold text-[var(--color-sidebar-text)] flex items-center gap-2.5">
           <div className="w-8 h-8 rounded-lg bg-[var(--color-primary)] flex items-center justify-center">
             <LayoutGrid size={18} className="text-white" />
@@ -37,8 +37,8 @@ export function Sidebar({ projects, selectedProjectId, userEmail, onSelectProjec
         </h1>
       </div>
 
-      <nav className="flex-1 overflow-y-auto py-3">
-        <div className="px-6 py-2 flex items-center justify-between">
+      <nav className="flex-1 overflow-y-auto py-4">
+        <div className="px-7 py-2.5 flex items-center justify-between">
           <span className="text-xs font-semibold text-white/40 uppercase tracking-wider flex items-center gap-1">
             <ChevronDown size={12} />
             プロジェクト
@@ -57,7 +57,7 @@ export function Sidebar({ projects, selectedProjectId, userEmail, onSelectProjec
             key={project.id}
             onClick={() => onSelectProject(project.id)}
             className={cn(
-              'w-[calc(100%-24px)] text-left px-3 py-2 mx-3 rounded-lg text-sm flex items-center gap-2.5 transition-all',
+              'w-[calc(100%-32px)] text-left px-3.5 py-2.5 mx-4 rounded-lg text-sm flex items-center gap-2.5 transition-all',
               selectedProjectId === project.id
                 ? 'bg-[var(--color-primary)] text-white font-medium shadow-lg shadow-orange-900/20'
                 : 'text-white/70 hover:bg-[var(--color-sidebar-hover)] hover:text-white'
@@ -75,7 +75,7 @@ export function Sidebar({ projects, selectedProjectId, userEmail, onSelectProjec
         ))}
 
         {isCreating && (
-          <div className="px-3 py-1.5 mx-3">
+          <div className="px-4 py-2 mx-4">
             <input
               autoFocus
               type="text"
@@ -94,7 +94,7 @@ export function Sidebar({ projects, selectedProjectId, userEmail, onSelectProjec
         )}
       </nav>
 
-      <div className="px-4 py-3 border-t border-white/10 space-y-1">
+      <div className="px-5 py-4 border-t border-white/10 space-y-1.5">
         <button
           onClick={onOpenClaudeGuide}
           className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-white/50 hover:text-white hover:bg-[var(--color-sidebar-hover)] transition-all"

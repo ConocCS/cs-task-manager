@@ -31,7 +31,7 @@ interface FilterBarProps {
 
 export function FilterBar({ filter, sort, members, onFilterChange, onSortChange }: FilterBarProps) {
   return (
-    <div className="flex items-center gap-4 px-10 py-2 border-b border-[var(--color-border)]/50 bg-white/60 shrink-0 flex-wrap">
+    <div className="flex items-center gap-5 px-14 py-3 border-b border-[var(--color-border)]/50 bg-white/60 shrink-0 flex-wrap">
       {/* フィルタ */}
       <div className="flex items-center gap-3">
         <span className="flex items-center gap-1 text-xs font-semibold text-[var(--color-muted)]">
@@ -43,7 +43,7 @@ export function FilterBar({ filter, sort, members, onFilterChange, onSortChange 
         <select
           value={filter.assigneeId}
           onChange={e => onFilterChange({ ...filter, assigneeId: e.target.value })}
-          className="text-xs border border-[var(--color-border)] rounded-lg px-2 py-1.5 bg-white text-[var(--color-foreground)] focus:outline-none focus:ring-1 focus:ring-[var(--color-primary)]/40"
+          className="text-xs border border-[var(--color-border)] rounded-lg px-2.5 py-2 bg-white text-[var(--color-foreground)] focus:outline-none focus:ring-1 focus:ring-[var(--color-primary)]/40"
         >
           <option value="all">全員</option>
           {members.map(m => (
@@ -55,7 +55,7 @@ export function FilterBar({ filter, sort, members, onFilterChange, onSortChange 
         <select
           value={filter.priority}
           onChange={e => onFilterChange({ ...filter, priority: e.target.value as TaskPriority | 'all' })}
-          className="text-xs border border-[var(--color-border)] rounded-lg px-2 py-1.5 bg-white text-[var(--color-foreground)] focus:outline-none focus:ring-1 focus:ring-[var(--color-primary)]/40"
+          className="text-xs border border-[var(--color-border)] rounded-lg px-2.5 py-2 bg-white text-[var(--color-foreground)] focus:outline-none focus:ring-1 focus:ring-[var(--color-primary)]/40"
         >
           {FILTER_PRIORITY_OPTIONS.map(opt => (
             <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -66,7 +66,7 @@ export function FilterBar({ filter, sort, members, onFilterChange, onSortChange 
         <select
           value={filter.status}
           onChange={e => onFilterChange({ ...filter, status: e.target.value as TaskStatus | 'all' })}
-          className="text-xs border border-[var(--color-border)] rounded-lg px-2 py-1.5 bg-white text-[var(--color-foreground)] focus:outline-none focus:ring-1 focus:ring-[var(--color-primary)]/40"
+          className="text-xs border border-[var(--color-border)] rounded-lg px-2.5 py-2 bg-white text-[var(--color-foreground)] focus:outline-none focus:ring-1 focus:ring-[var(--color-primary)]/40"
         >
           {FILTER_STATUS_OPTIONS.map(opt => (
             <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -77,7 +77,7 @@ export function FilterBar({ filter, sort, members, onFilterChange, onSortChange 
         <select
           value={filter.waitingOnId}
           onChange={e => onFilterChange({ ...filter, waitingOnId: e.target.value })}
-          className="text-xs border border-[var(--color-border)] rounded-lg px-2 py-1.5 bg-white text-[var(--color-foreground)] focus:outline-none focus:ring-1 focus:ring-[var(--color-primary)]/40"
+          className="text-xs border border-[var(--color-border)] rounded-lg px-2.5 py-2 bg-white text-[var(--color-foreground)] focus:outline-none focus:ring-1 focus:ring-[var(--color-primary)]/40"
         >
           <option value="all">全員</option>
           {members.map(m => (
@@ -99,7 +99,7 @@ export function FilterBar({ filter, sort, members, onFilterChange, onSortChange 
         <select
           value={sort.field}
           onChange={e => onSortChange({ ...sort, field: e.target.value as SortField })}
-          className="text-xs border border-[var(--color-border)] rounded-lg px-2 py-1.5 bg-white text-[var(--color-foreground)] focus:outline-none focus:ring-1 focus:ring-[var(--color-primary)]/40"
+          className="text-xs border border-[var(--color-border)] rounded-lg px-2.5 py-2 bg-white text-[var(--color-foreground)] focus:outline-none focus:ring-1 focus:ring-[var(--color-primary)]/40"
         >
           {SORT_FIELD_OPTIONS.map(opt => (
             <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -110,7 +110,7 @@ export function FilterBar({ filter, sort, members, onFilterChange, onSortChange 
           value={sort.direction}
           onChange={e => onSortChange({ ...sort, direction: e.target.value as SortDirection })}
           disabled={sort.field === 'default'}
-          className="text-xs border border-[var(--color-border)] rounded-lg px-2 py-1.5 bg-white text-[var(--color-foreground)] focus:outline-none focus:ring-1 focus:ring-[var(--color-primary)]/40 disabled:opacity-40 disabled:cursor-not-allowed"
+          className="text-xs border border-[var(--color-border)] rounded-lg px-2.5 py-2 bg-white text-[var(--color-foreground)] focus:outline-none focus:ring-1 focus:ring-[var(--color-primary)]/40 disabled:opacity-40 disabled:cursor-not-allowed"
         >
           {SORT_DIRECTION_OPTIONS.map(opt => (
             <option key={opt.value} value={opt.value}>{opt.label}</option>

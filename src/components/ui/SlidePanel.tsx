@@ -34,7 +34,7 @@ export function SlidePanel({ open, onClose, children }: SlidePanelProps) {
       >
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 p-1 rounded hover:bg-gray-100 text-gray-500"
+          className="absolute top-5 right-6 p-1.5 rounded hover:bg-gray-100 text-gray-500"
         >
           <X size={20} />
         </button>

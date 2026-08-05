@@ -18,7 +18,7 @@ export function StatusColumn({ status, tasks, members, onTaskClick }: StatusColu
 
   return (
     <div className="flex-1 min-w-[260px] max-w-[320px] flex flex-col">
-      <div className="flex items-center gap-2.5 px-3 py-3 mb-2">
+      <div className="flex items-center gap-2.5 px-4 py-3 mb-2">
         <span className={cn('w-3 h-3 rounded-full', config.bgClass)} />
         <span className="text-sm font-bold text-[var(--color-foreground)]">{config.label}</span>
         <span className="text-xs text-[var(--color-muted)] bg-white/60 px-1.5 py-0.5 rounded-full">{tasks.length}</span>
@@ -27,7 +27,7 @@ export function StatusColumn({ status, tasks, members, onTaskClick }: StatusColu
       <div
         ref={setNodeRef}
         className={cn(
-          'flex-1 rounded-xl p-2.5 space-y-2.5 overflow-y-auto transition-all min-h-[100px]',
+          'flex-1 rounded-xl p-3 space-y-3 overflow-y-auto transition-all min-h-[100px]',
           isOver ? 'bg-orange-50 ring-2 ring-[var(--color-primary)]/30' : 'bg-white/40'
         )}
       >

@@ -50,17 +50,17 @@ export function TaskDetailPanel({ task, members, sections, onClose, onUpdate, on
 
   return (
     <SlidePanel open={!!task} onClose={onClose}>
-      <div className="p-6 pt-12">
+      <div className="p-8 pt-14">
         <input
           type="text"
           value={title}
           onChange={e => setTitle(e.target.value)}
           onBlur={saveTitle}
           onKeyDown={e => { if (e.key === 'Enter') e.currentTarget.blur() }}
-          className="w-full text-xl font-bold text-[var(--color-foreground)] bg-transparent border-none outline-none focus:ring-0 mb-6"
+          className="w-full text-xl font-bold text-[var(--color-foreground)] bg-transparent border-none outline-none focus:ring-0 mb-8"
         />
 
-        <div className="space-y-4">
+        <div className="space-y-5">
           <div className="flex items-center gap-3">
             <div className="w-24 flex items-center gap-2 text-sm text-[var(--color-muted)]">
               <Layers size={16} />
