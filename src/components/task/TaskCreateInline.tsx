@@ -20,12 +20,12 @@ export function TaskCreateInline({ onSubmit }: TaskCreateInlineProps) {
 
   if (!isEditing) {
     return (
-      <div className="px-20 py-4">
+      <div className="flex justify-end px-20 py-5">
         <button
           onClick={() => setIsEditing(true)}
-          className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-[var(--color-primary)] rounded-lg hover:opacity-90 transition-opacity shadow-sm"
+          className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-bold text-white bg-[var(--color-primary)] rounded-xl hover:opacity-90 transition-opacity shadow-md"
         >
-          <Plus size={16} />
+          <Plus size={18} strokeWidth={2.5} />
           タスクを追加
         </button>
       </div>
@@ -33,7 +33,7 @@ export function TaskCreateInline({ onSubmit }: TaskCreateInlineProps) {
   }
 
   return (
-    <div className="px-20 py-3">
+    <div className="px-20 py-4">
       <input
         autoFocus
         type="text"
@@ -46,7 +46,7 @@ export function TaskCreateInline({ onSubmit }: TaskCreateInlineProps) {
         }}
         onBlur={handleSubmit}
         placeholder="タスク名を入力..."
-        className="w-full text-sm px-3 py-2 border-2 border-[var(--color-primary)] rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/20"
+        className="w-full text-sm px-4 py-3 border-2 border-[var(--color-primary)] rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/20"
       />
     </div>
   )
