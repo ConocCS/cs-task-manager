@@ -20,7 +20,7 @@ export function SectionGroup({ section, tasks, members, onToggleComplete, onTask
     <div className="mb-1">
       <button
         onClick={() => setCollapsed(!collapsed)}
-        className="flex items-center gap-2 px-8 py-3 w-full text-left hover:bg-white/40 transition-colors"
+        className="flex items-center gap-2 px-10 py-3 w-full text-left hover:bg-white/40 transition-colors"
       >
         {collapsed ? <ChevronRight size={16} className="text-[var(--color-primary)]" /> : <ChevronDown size={16} className="text-[var(--color-primary)]" />}
         <span className="text-sm font-bold text-[var(--color-foreground)]">{section.name}</span>

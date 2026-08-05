@@ -31,7 +31,7 @@ interface FilterBarProps {
 
 export function FilterBar({ filter, sort, members, onFilterChange, onSortChange }: FilterBarProps) {
   return (
-    <div className="flex items-center gap-4 px-8 py-2 border-b border-[var(--color-border)]/50 bg-white/60 shrink-0 flex-wrap">
+    <div className="flex items-center gap-4 px-10 py-2 border-b border-[var(--color-border)]/50 bg-white/60 shrink-0 flex-wrap">
       {/* フィルタ */}
       <div className="flex items-center gap-3">
         <span className="flex items-center gap-1 text-xs font-semibold text-[var(--color-muted)]">

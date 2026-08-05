@@ -30,7 +30,7 @@ export function TaskRow({ task, members, onToggleComplete, onClick }: TaskRowPro
 
   return (
     <div
-      className="group flex items-center gap-3 px-8 py-2.5 hover:bg-white/60 cursor-pointer border-b border-[var(--color-border)]/50 transition-all"
+      className="group flex items-center gap-3 px-10 py-2.5 hover:bg-white/60 cursor-pointer border-b border-[var(--color-border)]/50 transition-all"
       onClick={() => onClick(task)}
     >
       <button

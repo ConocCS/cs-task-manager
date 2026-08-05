@@ -22,7 +22,7 @@ export function TaskCreateInline({ onSubmit }: TaskCreateInlineProps) {
     return (
       <button
         onClick={() => setIsEditing(true)}
-        className="flex items-center gap-2 px-8 py-2.5 text-sm text-[var(--color-primary)]/60 hover:text-[var(--color-primary)] w-full transition-colors font-medium"
+        className="flex items-center gap-2 px-10 py-2.5 text-sm text-[var(--color-primary)]/60 hover:text-[var(--color-primary)] w-full transition-colors font-medium"
       >
         <Plus size={16} />
         タスクを追加
@@ -31,7 +31,7 @@ export function TaskCreateInline({ onSubmit }: TaskCreateInlineProps) {
   }
 
   return (
-    <div className="px-8 py-2">
+    <div className="px-10 py-2">
       <input
         autoFocus
         type="text"
