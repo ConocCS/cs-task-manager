@@ -26,7 +26,7 @@ function CopyButton({ text }: { text: string }) {
   )
 }
 
-const SETUP_COMMAND = 'bash ~/Desktop/カスタマーサクセスチーム/cs-task-manager/setup-claude.sh'
+const SETUP_COMMAND = 'curl -sL https://raw.githubusercontent.com/ConocCS/cs-task-manager/main/setup-claude.sh | bash'
 
 export function ClaudeGuideModal({ open, onClose }: ClaudeGuideModalProps) {
   if (!open) return null
