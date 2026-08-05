@@ -13,20 +13,21 @@ interface TaskListViewProps {
   members: Member[]
   onToggleComplete: (id: string) => void
   onTaskClick: (task: Task) => void
+  onUpdateTask: (id: string, updates: Record<string, unknown>) => void
   onCreateTask: (title: string, sectionId: string | null) => void
   onCreateSection: (name: string) => void
 }
 
 export function TaskListView({
   tasks, completedTasks, sections, members,
-  onToggleComplete, onTaskClick, onCreateTask, onCreateSection,
+  onToggleComplete, onTaskClick, onUpdateTask, onCreateTask, onCreateSection,
 }: TaskListViewProps) {
   const [completedOpen, setCompletedOpen] = useState(false)
   const unsectionedTasks = tasks.filter(t => !t.section_id)
 
   return (
     <div className="flex-1 overflow-y-auto">
-      <div className="flex items-center gap-3 px-14 py-3 text-xs font-semibold text-[var(--color-primary)] tracking-wider border-b border-[var(--color-primary)]/10 bg-white sticky top-0 z-10">
+      <div className="flex items-center gap-3 px-20 py-3 text-xs font-semibold text-[var(--color-primary)] tracking-wider border-b border-[var(--color-primary)]/10 bg-white sticky top-0 z-10">
         <div className="w-5" />
         <div className="flex-1">タスク名</div>
         <div className="w-16">担当</div>
@@ -45,6 +46,7 @@ export function TaskListView({
               members={members}
               onToggleComplete={onToggleComplete}
               onClick={onTaskClick}
+              onUpdate={onUpdateTask}
             />
           ))}
         </div>
@@ -58,6 +60,7 @@ export function TaskListView({
           members={members}
           onToggleComplete={onToggleComplete}
           onTaskClick={onTaskClick}
+          onUpdateTask={onUpdateTask}
           onCreateTask={onCreateTask}
         />
       ))}
@@ -73,7 +76,7 @@ export function TaskListView({
         <div className="mt-4 border-t-2 border-[var(--color-border)]">
           <button
             onClick={() => setCompletedOpen(!completedOpen)}
-            className="flex items-center gap-2.5 px-14 py-3.5 w-full text-left hover:bg-white/40 transition-colors"
+            className="flex items-center gap-2.5 px-20 py-3.5 w-full text-left hover:bg-white/40 transition-colors"
           >
             {completedOpen
               ? <ChevronDown size={16} className="text-emerald-600" />

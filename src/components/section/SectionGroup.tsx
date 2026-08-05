@@ -10,17 +10,18 @@ interface SectionGroupProps {
   members: Member[]
   onToggleComplete: (id: string) => void
   onTaskClick: (task: Task) => void
+  onUpdateTask: (id: string, updates: Record<string, unknown>) => void
   onCreateTask: (title: string, sectionId: string) => void
 }
 
-export function SectionGroup({ section, tasks, members, onToggleComplete, onTaskClick, onCreateTask }: SectionGroupProps) {
+export function SectionGroup({ section, tasks, members, onToggleComplete, onTaskClick, onUpdateTask, onCreateTask }: SectionGroupProps) {
   const [collapsed, setCollapsed] = useState(false)
 
   return (
     <div className="mb-1">
       <button
         onClick={() => setCollapsed(!collapsed)}
-        className="flex items-center gap-2.5 px-14 py-3.5 w-full text-left hover:bg-white/40 transition-colors"
+        className="flex items-center gap-2.5 px-20 py-3.5 w-full text-left hover:bg-white/40 transition-colors"
       >
         {collapsed ? <ChevronRight size={16} className="text-[var(--color-primary)]" /> : <ChevronDown size={16} className="text-[var(--color-primary)]" />}
         <span className="text-sm font-bold text-[var(--color-foreground)]">{section.name}</span>
@@ -36,6 +37,7 @@ export function SectionGroup({ section, tasks, members, onToggleComplete, onTask
               members={members}
               onToggleComplete={onToggleComplete}
               onClick={onTaskClick}
+              onUpdate={onUpdateTask}
             />
           ))}
           <TaskCreateInline onSubmit={title => onCreateTask(title, section.id)} />

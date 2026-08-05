@@ -1,3 +1,4 @@
+import { useState, useRef, useEffect } from 'react'
 import { Check, ArrowUp, ArrowDown, Minus, Calendar, Eye } from 'lucide-react'
 import { format, isBefore, startOfToday } from 'date-fns'
 import type { Task, Member } from '../../lib/database.types'
@@ -10,6 +11,7 @@ interface TaskRowProps {
   members: Member[]
   onToggleComplete: (id: string) => void
   onClick: (task: Task) => void
+  onUpdate?: (id: string, updates: Record<string, unknown>) => void
 }
 
 const PriorityIcon = ({ priority }: { priority: Task['priority'] }) => {
@@ -21,16 +23,37 @@ const PriorityIcon = ({ priority }: { priority: Task['priority'] }) => {
   }
 }
 
-export function TaskRow({ task, members, onToggleComplete, onClick }: TaskRowProps) {
+export function TaskRow({ task, members, onToggleComplete, onClick, onUpdate }: TaskRowProps) {
+  const [isEditingTitle, setIsEditingTitle] = useState(false)
+  const [editTitle, setEditTitle] = useState(task.title)
+  const inputRef = useRef<HTMLInputElement>(null)
+
   const assignee = members.find(m => m.id === task.assignee_id)
   const waitingOn = members.find(m => m.id === task.waiting_on_id)
   const statusConfig = STATUS_CONFIG[task.status]
   const isOverdue = task.due_date && task.status !== 'completed' && isBefore(new Date(task.due_date), startOfToday())
   const isCompleted = task.status === 'completed'
 
+  useEffect(() => {
+    if (isEditingTitle && inputRef.current) {
+      inputRef.current.focus()
+      inputRef.current.select()
+    }
+  }, [isEditingTitle])
+
+  const handleTitleSubmit = () => {
+    const trimmed = editTitle.trim()
+    if (trimmed && trimmed !== task.title && onUpdate) {
+      onUpdate(task.id, { title: trimmed })
+    } else {
+      setEditTitle(task.title)
+    }
+    setIsEditingTitle(false)
+  }
+
   return (
     <div
-      className="group flex items-center gap-3 px-14 py-3.5 hover:bg-white/60 cursor-pointer border-b border-[var(--color-border)]/50 transition-all"
+      className="group flex items-center gap-3 px-20 py-3.5 hover:bg-white/60 cursor-pointer border-b border-[var(--color-border)]/50 transition-all"
       onClick={() => onClick(task)}
     >
       <button
@@ -45,9 +68,35 @@ export function TaskRow({ task, members, onToggleComplete, onClick }: TaskRowPro
         {isCompleted && <Check size={12} />}
       </button>
 
-      <span className={cn('flex-1 text-sm truncate', isCompleted && 'line-through text-stone-400')}>
-        {task.title}
-      </span>
+      {isEditingTitle ? (
+        <input
+          ref={inputRef}
+          type="text"
+          value={editTitle}
+          onChange={e => setEditTitle(e.target.value)}
+          onKeyDown={e => {
+            if (e.nativeEvent.isComposing) return
+            if (e.key === 'Enter') handleTitleSubmit()
+            if (e.key === 'Escape') { setEditTitle(task.title); setIsEditingTitle(false) }
+          }}
+          onBlur={handleTitleSubmit}
+          onClick={e => e.stopPropagation()}
+          className="flex-1 text-sm px-2 py-1 border border-[var(--color-primary)] rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/20"
+        />
+      ) : (
+        <span
+          className={cn('flex-1 text-sm truncate hover:text-[var(--color-primary)]', isCompleted && 'line-through text-stone-400')}
+          onClick={e => {
+            if (!isCompleted && onUpdate) {
+              e.stopPropagation()
+              setEditTitle(task.title)
+              setIsEditingTitle(true)
+            }
+          }}
+        >
+          {task.title}
+        </span>
+      )}
 
       <div className="w-16">
         {assignee && (

@@ -20,18 +20,20 @@ export function TaskCreateInline({ onSubmit }: TaskCreateInlineProps) {
 
   if (!isEditing) {
     return (
-      <button
-        onClick={() => setIsEditing(true)}
-        className="flex items-center gap-2.5 px-14 py-3 text-sm text-[var(--color-primary)]/60 hover:text-[var(--color-primary)] w-full transition-colors font-medium"
-      >
-        <Plus size={16} />
-        タスクを追加
-      </button>
+      <div className="px-20 py-4">
+        <button
+          onClick={() => setIsEditing(true)}
+          className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-[var(--color-primary)] rounded-lg hover:opacity-90 transition-opacity shadow-sm"
+        >
+          <Plus size={16} />
+          タスクを追加
+        </button>
+      </div>
     )
   }
 
   return (
-    <div className="px-14 py-3">
+    <div className="px-20 py-3">
       <input
         autoFocus
         type="text"

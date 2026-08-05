@@ -20,7 +20,10 @@ import { Loader2 } from 'lucide-react'
 function App() {
   const { user, loading: authLoading, error: authError, signInWithGoogle, signOut } = useAuth()
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null)
-  const [viewMode, setViewMode] = useState<ViewMode>('list')
+  const [viewMode, setViewMode] = useState<ViewMode>(() => {
+    const saved = localStorage.getItem('cs-task-view-mode')
+    return saved === 'board' ? 'board' : 'list'
+  })
   const [selectedTask, setSelectedTask] = useState<Task | null>(null)
   const [showClaudeGuide, setShowClaudeGuide] = useState(false)
 
@@ -166,7 +169,10 @@ function App() {
             projectName={selectedProject.name}
             projectColor={selectedProject.color}
             viewMode={viewMode}
-            onViewModeChange={setViewMode}
+            onViewModeChange={(mode) => {
+              setViewMode(mode)
+              localStorage.setItem('cs-task-view-mode', mode)
+            }}
           />
 
           <FilterBar
@@ -189,6 +195,7 @@ function App() {
               members={members}
               onToggleComplete={toggleComplete}
               onTaskClick={handleTaskClick}
+              onUpdateTask={handleUpdateTask}
               onCreateTask={handleCreateTask}
               onCreateSection={createSection}
             />
