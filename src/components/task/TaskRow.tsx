@@ -28,7 +28,9 @@ export function TaskRow({ task, members, onToggleComplete, onClick, onUpdate }: 
   const [editTitle, setEditTitle] = useState(task.title)
   const [isEditingAssignee, setIsEditingAssignee] = useState(false)
   const [isEditingWaitingOn, setIsEditingWaitingOn] = useState(false)
+  const [isEditingDueDate, setIsEditingDueDate] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
+  const dateRef = useRef<HTMLInputElement>(null)
 
   const assignee = members.find(m => m.id === task.assignee_id)
   const waitingOn = members.find(m => m.id === task.waiting_on_id)
@@ -42,6 +44,12 @@ export function TaskRow({ task, members, onToggleComplete, onClick, onUpdate }: 
       inputRef.current.select()
     }
   }, [isEditingTitle])
+
+  useEffect(() => {
+    if (isEditingDueDate && dateRef.current) {
+      dateRef.current.showPicker()
+    }
+  }, [isEditingDueDate])
 
   const handleTitleSubmit = () => {
     const trimmed = editTitle.trim()
@@ -170,14 +178,33 @@ export function TaskRow({ task, members, onToggleComplete, onClick, onUpdate }: 
         )}
       </div>
 
-      <div className="w-20 text-right">
-        {task.due_date && (
-          <span className={cn(
-            'text-xs flex items-center justify-end gap-1',
-            isOverdue ? 'text-red-500 font-medium' : 'text-[var(--color-muted)]'
-          )}>
+      <div className="w-20 text-right" onClick={e => e.stopPropagation()}>
+        {isEditingDueDate ? (
+          <input
+            ref={dateRef}
+            type="date"
+            value={task.due_date ?? ''}
+            onChange={e => {
+              if (onUpdate) {
+                onUpdate(task.id, { due_date: e.target.value || null })
+              }
+              setIsEditingDueDate(false)
+            }}
+            onBlur={() => setIsEditingDueDate(false)}
+            className="w-full text-xs border border-[var(--color-primary)] rounded-md px-1 py-1 bg-white focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/20"
+          />
+        ) : (
+          <span
+            className={cn(
+              'text-xs flex items-center justify-end gap-1 cursor-pointer rounded-md px-1.5 py-1 transition-colors',
+              isOverdue ? 'text-red-500 font-medium hover:bg-red-50' :
+              task.due_date ? 'text-[var(--color-muted)] hover:bg-[var(--color-primary)]/10' :
+              'text-stone-300 hover:bg-stone-100'
+            )}
+            onClick={() => onUpdate && setIsEditingDueDate(true)}
+          >
             <Calendar size={12} />
-            {format(new Date(task.due_date), 'M/d')}
+            {task.due_date ? format(new Date(task.due_date), 'M/d') : '—'}
           </span>
         )}
       </div>
