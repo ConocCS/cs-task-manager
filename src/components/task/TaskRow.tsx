@@ -26,6 +26,8 @@ const PriorityIcon = ({ priority }: { priority: Task['priority'] }) => {
 export function TaskRow({ task, members, onToggleComplete, onClick, onUpdate }: TaskRowProps) {
   const [isEditingTitle, setIsEditingTitle] = useState(false)
   const [editTitle, setEditTitle] = useState(task.title)
+  const [isEditingAssignee, setIsEditingAssignee] = useState(false)
+  const [isEditingWaitingOn, setIsEditingWaitingOn] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
 
   const assignee = members.find(m => m.id === task.assignee_id)
@@ -98,17 +100,72 @@ export function TaskRow({ task, members, onToggleComplete, onClick, onUpdate }: 
         </span>
       )}
 
-      <div className="w-16">
-        {assignee && (
-          <span className="text-xs text-[var(--color-foreground)]">{assignee.name}</span>
+      {/* 担当者 */}
+      <div className="w-20" onClick={e => e.stopPropagation()}>
+        {isEditingAssignee ? (
+          <select
+            autoFocus
+            value={task.assignee_id ?? ''}
+            onChange={e => {
+              if (onUpdate) {
+                onUpdate(task.id, { assignee_id: e.target.value || null })
+              }
+              setIsEditingAssignee(false)
+            }}
+            onBlur={() => setIsEditingAssignee(false)}
+            className="w-full text-xs border border-[var(--color-primary)] rounded-md px-1 py-1 bg-white focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/20"
+          >
+            <option value="">未設定</option>
+            {members.map(m => (
+              <option key={m.id} value={m.id}>{m.name}</option>
+            ))}
+          </select>
+        ) : (
+          <span
+            className={cn(
+              'text-xs cursor-pointer rounded-md px-1.5 py-1 transition-colors',
+              assignee
+                ? 'text-[var(--color-foreground)] hover:bg-[var(--color-primary)]/10'
+                : 'text-stone-300 hover:bg-stone-100'
+            )}
+            onClick={() => onUpdate && setIsEditingAssignee(true)}
+          >
+            {assignee ? assignee.name : '—'}
+          </span>
         )}
       </div>
 
-      <div className="w-24">
-        {waitingOn && (
-          <span className="inline-flex items-center gap-1 text-xs text-amber-700 bg-amber-50 border border-amber-200 px-1.5 py-0.5 rounded-md">
-            <Eye size={11} />
-            {waitingOn.name}
+      {/* 確認先 */}
+      <div className="w-24" onClick={e => e.stopPropagation()}>
+        {isEditingWaitingOn ? (
+          <select
+            autoFocus
+            value={task.waiting_on_id ?? ''}
+            onChange={e => {
+              if (onUpdate) {
+                onUpdate(task.id, { waiting_on_id: e.target.value || null })
+              }
+              setIsEditingWaitingOn(false)
+            }}
+            onBlur={() => setIsEditingWaitingOn(false)}
+            className="w-full text-xs border border-[var(--color-primary)] rounded-md px-1 py-1 bg-white focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/20"
+          >
+            <option value="">未設定</option>
+            {members.map(m => (
+              <option key={m.id} value={m.id}>{m.name}</option>
+            ))}
+          </select>
+        ) : (
+          <span
+            className={cn(
+              'inline-flex items-center gap-1 text-xs cursor-pointer rounded-md px-1.5 py-1 transition-colors',
+              waitingOn
+                ? 'text-amber-700 bg-amber-50 border border-amber-200 hover:bg-amber-100'
+                : 'text-stone-300 hover:bg-stone-100'
+            )}
+            onClick={() => onUpdate && setIsEditingWaitingOn(true)}
+          >
+            {waitingOn ? <><Eye size={11} />{waitingOn.name}</> : '—'}
           </span>
         )}
       </div>
