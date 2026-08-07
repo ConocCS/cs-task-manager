@@ -109,7 +109,7 @@ export function TaskRow({ task, members, onToggleComplete, onClick, onUpdate }: 
       )}
 
       {/* 担当者 */}
-      <div className="w-20" onClick={e => e.stopPropagation()}>
+      <div className="w-16 shrink-0" onClick={e => e.stopPropagation()}>
         {isEditingAssignee ? (
           <select
             autoFocus
@@ -144,7 +144,7 @@ export function TaskRow({ task, members, onToggleComplete, onClick, onUpdate }: 
       </div>
 
       {/* 確認先 */}
-      <div className="w-24" onClick={e => e.stopPropagation()}>
+      <div className="w-16 shrink-0" onClick={e => e.stopPropagation()}>
         {isEditingWaitingOn ? (
           <select
             autoFocus
@@ -178,7 +178,7 @@ export function TaskRow({ task, members, onToggleComplete, onClick, onUpdate }: 
         )}
       </div>
 
-      <div className="w-20 text-right" onClick={e => e.stopPropagation()}>
+      <div className="w-14 shrink-0 text-right" onClick={e => e.stopPropagation()}>
         {isEditingDueDate ? (
           <input
             ref={dateRef}
@@ -209,11 +209,11 @@ export function TaskRow({ task, members, onToggleComplete, onClick, onUpdate }: 
         )}
       </div>
 
-      <div className="w-8 flex justify-center" title={PRIORITY_CONFIG[task.priority].label}>
+      <div className="w-8 shrink-0 flex justify-center" title={PRIORITY_CONFIG[task.priority].label}>
         <PriorityIcon priority={task.priority} />
       </div>
 
-      <div className="w-16">
+      <div className="w-16 shrink-0">
         <Badge bgClass={statusConfig.bgClass} textClass={statusConfig.textClass}>
           {statusConfig.label}
         </Badge>
