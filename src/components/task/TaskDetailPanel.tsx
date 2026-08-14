@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import { Trash2, Calendar, User, Flag, Layers, AlignLeft, Eye } from 'lucide-react'
-import type { Task, Member, Section, TaskStatus, TaskPriority } from '../../lib/database.types'
+import type { Task, Member, TaskStatus, TaskPriority } from '../../lib/database.types'
 import { STATUS_CONFIG, PRIORITY_CONFIG, STATUS_ORDER, PRIORITY_ORDER } from '../../constants'
 import { SlidePanel } from '../ui/SlidePanel'
 import { Badge } from '../ui/Badge'
@@ -9,13 +9,12 @@ import { Avatar } from '../ui/Avatar'
 interface TaskDetailPanelProps {
   task: Task | null
   members: Member[]
-  sections: Section[]
   onClose: () => void
   onUpdate: (id: string, updates: Record<string, unknown>) => void
   onDelete: (id: string) => void
 }
 
-export function TaskDetailPanel({ task, members, sections, onClose, onUpdate, onDelete }: TaskDetailPanelProps) {
+export function TaskDetailPanel({ task, members, onClose, onUpdate, onDelete }: TaskDetailPanelProps) {
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
@@ -152,22 +151,6 @@ export function TaskDetailPanel({ task, members, sections, onClose, onUpdate, on
             </select>
           </div>
 
-          <div className="flex items-center gap-3">
-            <div className="w-24 flex items-center gap-2 text-sm text-[var(--color-muted)]">
-              <Layers size={16} />
-              セクション
-            </div>
-            <select
-              value={task.section_id ?? ''}
-              onChange={e => onUpdate(task.id, { section_id: e.target.value || null })}
-              className="text-sm px-2.5 py-1.5 border border-[var(--color-border)] rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30"
-            >
-              <option value="">なし</option>
-              {sections.map(s => (
-                <option key={s.id} value={s.id}>{s.name}</option>
-              ))}
-            </select>
-          </div>
         </div>
 
         <div className="mt-8">

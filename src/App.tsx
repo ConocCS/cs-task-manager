@@ -6,13 +6,15 @@ import { FilterBar, type FilterState, type SortState } from './components/layout
 import { TaskListView } from './components/task/TaskListView'
 import { TaskBoardView } from './components/task/TaskBoardView'
 import { TaskDetailPanel } from './components/task/TaskDetailPanel'
+import { MemberPage } from './components/member/MemberPage'
 import { ClaudeGuideModal } from './components/layout/ClaudeGuideModal'
 import { LoginPage } from './components/layout/LoginPage'
 import { useAuth } from './hooks/useAuth'
 import { useProjects } from './hooks/useProjects'
 import { useTasks } from './hooks/useTasks'
-import { useSections } from './hooks/useSections'
 import { useMembers } from './hooks/useMembers'
+import { useAssignedTasks } from './hooks/useAssignedTasks'
+import { usePersonalTasks } from './hooks/usePersonalTasks'
 import { STATUS_ORDER, PRIORITY_ORDER } from './constants'
 import type { Task } from './lib/database.types'
 import { Loader2 } from 'lucide-react'
@@ -20,6 +22,7 @@ import { Loader2 } from 'lucide-react'
 function App() {
   const { user, loading: authLoading, error: authError, signInWithGoogle, signOut } = useAuth()
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null)
+  const [selectedMemberId, setSelectedMemberId] = useState<string | null>(null)
   const [viewMode, setViewMode] = useState<ViewMode>(() => {
     const saved = localStorage.getItem('cs-task-view-mode')
     return saved === 'board' ? 'board' : 'list'
@@ -41,15 +44,29 @@ function App() {
 
   const { projects, loading: projectsLoading, createProject } = useProjects()
   const { tasks, loading: tasksLoading, createTask, updateTask, deleteTask, toggleComplete } = useTasks(selectedProjectId)
-  const { sections, createSection } = useSections(selectedProjectId)
   const { members } = useMembers()
+  const { tasks: assignedTasks, updateTask: updateAssignedTask, toggleComplete: toggleAssignedComplete } = useAssignedTasks(selectedMemberId)
+  const { tasks: personalTasks, createTask: createPersonalTask, updateTask: updatePersonalTask, deleteTask: deletePersonalTask, toggleComplete: togglePersonalComplete } = usePersonalTasks(selectedMemberId)
 
-  // Auto-select first project
-  if (!selectedProjectId && projects.length > 0) {
+  // Auto-select first project (only if no member is selected)
+  if (!selectedProjectId && !selectedMemberId && projects.length > 0) {
     setSelectedProjectId(projects[0].id)
   }
 
   const selectedProject = projects.find(p => p.id === selectedProjectId)
+  const selectedMember = members.find(m => m.id === selectedMemberId)
+
+  const handleSelectProject = useCallback((id: string) => {
+    setSelectedProjectId(id)
+    setSelectedMemberId(null)
+    setSelectedTask(null)
+  }, [])
+
+  const handleSelectMember = useCallback((id: string) => {
+    setSelectedMemberId(id)
+    setSelectedProjectId(null)
+    setSelectedTask(null)
+  }, [])
 
   // フィルタ・ソート適用
   const { activeTasks, completedTasks } = useMemo(() => {
@@ -111,8 +128,8 @@ function App() {
     return { activeTasks: active, completedTasks: completed }
   }, [tasks, filter, sort, members])
 
-  const handleCreateTask = useCallback((title: string, sectionId: string | null) => {
-    createTask({ title, sectionId })
+  const handleCreateTask = useCallback((title: string) => {
+    createTask({ title })
   }, [createTask])
 
   const handleTaskClick = useCallback((task: Task) => {
@@ -151,19 +168,38 @@ function App() {
       sidebar={
         <Sidebar
           projects={projects}
+          members={members}
           selectedProjectId={selectedProjectId}
+          selectedMemberId={selectedMemberId}
           userEmail={user.email ?? null}
-          onSelectProject={setSelectedProjectId}
+          onSelectProject={handleSelectProject}
+          onSelectMember={handleSelectMember}
           onCreateProject={async (name) => {
             const p = await createProject(name)
-            if (p) setSelectedProjectId(p.id)
+            if (p) {
+              setSelectedProjectId(p.id)
+              setSelectedMemberId(null)
+            }
           }}
           onOpenClaudeGuide={() => setShowClaudeGuide(true)}
           onSignOut={signOut}
         />
       }
     >
-      {selectedProject ? (
+      {selectedMember ? (
+        <MemberPage
+          member={selectedMember}
+          assignedTasks={assignedTasks}
+          personalTasks={personalTasks}
+          projects={projects}
+          onToggleAssignedComplete={toggleAssignedComplete}
+          onUpdateAssignedTask={(id, updates) => updateAssignedTask(id, updates)}
+          onTogglePersonalComplete={togglePersonalComplete}
+          onCreatePersonalTask={(title) => createPersonalTask({ title })}
+          onUpdatePersonalTask={(id, updates) => updatePersonalTask(id, updates)}
+          onDeletePersonalTask={deletePersonalTask}
+        />
+      ) : selectedProject ? (
         <>
           <Header
             projectName={selectedProject.name}
@@ -191,13 +227,11 @@ function App() {
             <TaskListView
               tasks={activeTasks}
               completedTasks={completedTasks}
-              sections={sections}
               members={members}
               onToggleComplete={toggleComplete}
               onTaskClick={handleTaskClick}
               onUpdateTask={handleUpdateTask}
               onCreateTask={handleCreateTask}
-              onCreateSection={createSection}
             />
           ) : (
             <TaskBoardView
@@ -213,7 +247,6 @@ function App() {
           <TaskDetailPanel
             task={selectedTask}
             members={members}
-            sections={sections}
             onClose={() => setSelectedTask(null)}
             onUpdate={handleUpdateTask}
             onDelete={handleDeleteTask}

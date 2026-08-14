@@ -125,6 +125,44 @@ export type Database = {
         }
         Relationships: []
       }
+      personal_tasks: {
+        Row: {
+          id: string
+          member_id: string
+          title: string
+          description: string | null
+          status: TaskStatus
+          priority: TaskPriority
+          due_date: string | null
+          completed_at: string | null
+          sort_order: number
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          member_id: string
+          title: string
+          description?: string | null
+          status?: TaskStatus
+          priority?: TaskPriority
+          due_date?: string | null
+          completed_at?: string | null
+          sort_order?: number
+        }
+        Update: {
+          id?: string
+          member_id?: string
+          title?: string
+          description?: string | null
+          status?: TaskStatus
+          priority?: TaskPriority
+          due_date?: string | null
+          completed_at?: string | null
+          sort_order?: number
+        }
+        Relationships: []
+      }
     }
     Views: Record<string, never>
     Functions: Record<string, never>
@@ -140,3 +178,4 @@ export type Member = Database['public']['Tables']['members']['Row']
 export type Project = Database['public']['Tables']['projects']['Row']
 export type Section = Database['public']['Tables']['sections']['Row']
 export type Task = Database['public']['Tables']['tasks']['Row']
+export type PersonalTask = Database['public']['Tables']['personal_tasks']['Row']

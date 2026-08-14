@@ -1,19 +1,23 @@
 import { useState } from 'react'
-import { LayoutGrid, Plus, ChevronDown, Terminal, LogOut } from 'lucide-react'
-import type { Project } from '../../lib/database.types'
+import { LayoutGrid, Plus, ChevronDown, Terminal, LogOut, User } from 'lucide-react'
+import type { Project, Member } from '../../lib/database.types'
 import { cn } from '../../lib/utils'
+import { Avatar } from '../ui/Avatar'
 
 interface SidebarProps {
   projects: Project[]
+  members: Member[]
   selectedProjectId: string | null
+  selectedMemberId: string | null
   userEmail: string | null
   onSelectProject: (id: string) => void
+  onSelectMember: (id: string) => void
   onCreateProject: (name: string) => void
   onOpenClaudeGuide: () => void
   onSignOut: () => void
 }
 
-export function Sidebar({ projects, selectedProjectId, userEmail, onSelectProject, onCreateProject, onOpenClaudeGuide, onSignOut }: SidebarProps) {
+export function Sidebar({ projects, members, selectedProjectId, selectedMemberId, userEmail, onSelectProject, onSelectMember, onCreateProject, onOpenClaudeGuide, onSignOut }: SidebarProps) {
   const [isCreating, setIsCreating] = useState(false)
   const [newName, setNewName] = useState('')
 
@@ -92,6 +96,37 @@ export function Sidebar({ projects, selectedProjectId, userEmail, onSelectProjec
             />
           </div>
         )}
+
+        {/* メンバー */}
+        <div className="px-8 py-2.5 mt-4 flex items-center">
+          <span className="text-xs font-semibold text-white/40 uppercase tracking-wider flex items-center gap-1">
+            <ChevronDown size={12} />
+            メンバー
+          </span>
+        </div>
+
+        {members.map(member => (
+          <button
+            key={member.id}
+            onClick={() => onSelectMember(member.id)}
+            className={cn(
+              'w-[calc(100%-40px)] text-left px-4 py-2.5 mx-5 rounded-lg text-sm flex items-center gap-2.5 transition-all',
+              selectedMemberId === member.id
+                ? 'bg-blue-500 text-white font-medium shadow-lg shadow-blue-900/20'
+                : 'text-white/70 hover:bg-[var(--color-sidebar-hover)] hover:text-white'
+            )}
+          >
+            <Avatar
+              name={member.name}
+              color={selectedMemberId === member.id ? '#fff' : member.avatar_color}
+              size="sm"
+              className={cn(
+                selectedMemberId === member.id && 'text-blue-500'
+              )}
+            />
+            <span className="truncate">{member.name}</span>
+          </button>
+        ))}
       </nav>
 
       <div className="px-6 py-4 border-t border-white/10 space-y-1.5">

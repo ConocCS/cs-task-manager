@@ -1,29 +1,24 @@
 import { useState } from 'react'
 import { ChevronDown, ChevronRight } from 'lucide-react'
-import type { Task, Section, Member } from '../../lib/database.types'
-import { SectionGroup } from '../section/SectionGroup'
-import { SectionCreate } from '../section/SectionCreate'
+import type { Task, Member } from '../../lib/database.types'
 import { TaskRow } from './TaskRow'
 import { TaskCreateInline } from './TaskCreateInline'
 
 interface TaskListViewProps {
   tasks: Task[]
   completedTasks: Task[]
-  sections: Section[]
   members: Member[]
   onToggleComplete: (id: string) => void
   onTaskClick: (task: Task) => void
   onUpdateTask: (id: string, updates: Record<string, unknown>) => void
-  onCreateTask: (title: string, sectionId: string | null) => void
-  onCreateSection: (name: string) => void
+  onCreateTask: (title: string) => void
 }
 
 export function TaskListView({
-  tasks, completedTasks, sections, members,
-  onToggleComplete, onTaskClick, onUpdateTask, onCreateTask, onCreateSection,
+  tasks, completedTasks, members,
+  onToggleComplete, onTaskClick, onUpdateTask, onCreateTask,
 }: TaskListViewProps) {
   const [completedOpen, setCompletedOpen] = useState(false)
-  const unsectionedTasks = tasks.filter(t => !t.section_id)
 
   return (
     <div className="flex-1 overflow-y-auto">
@@ -37,41 +32,19 @@ export function TaskListView({
         <div className="w-16 shrink-0">状態</div>
       </div>
 
-      {unsectionedTasks.length > 0 && (
-        <div className="mb-1">
-          {unsectionedTasks.map(task => (
-            <TaskRow
-              key={task.id}
-              task={task}
-              members={members}
-              onToggleComplete={onToggleComplete}
-              onClick={onTaskClick}
-              onUpdate={onUpdateTask}
-            />
-          ))}
-        </div>
-      )}
-
-      {sections.map(section => (
-        <SectionGroup
-          key={section.id}
-          section={section}
-          tasks={tasks.filter(t => t.section_id === section.id)}
+      {tasks.map(task => (
+        <TaskRow
+          key={task.id}
+          task={task}
           members={members}
           onToggleComplete={onToggleComplete}
-          onTaskClick={onTaskClick}
-          onUpdateTask={onUpdateTask}
-          onCreateTask={onCreateTask}
+          onClick={onTaskClick}
+          onUpdate={onUpdateTask}
         />
       ))}
 
-      {sections.length === 0 && (
-        <TaskCreateInline onSubmit={title => onCreateTask(title, null)} />
-      )}
+      <TaskCreateInline onSubmit={onCreateTask} />
 
-      <SectionCreate onSubmit={onCreateSection} />
-
-      {/* 完了済みタスクの折りたたみセクション */}
       {completedTasks.length > 0 && (
         <div className="mt-4 border-t-2 border-[var(--color-border)]">
           <button
