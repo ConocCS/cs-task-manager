@@ -45,7 +45,7 @@ function App() {
   const { projects, loading: projectsLoading, createProject } = useProjects()
   const { tasks, loading: tasksLoading, createTask, updateTask, deleteTask, toggleComplete } = useTasks(selectedProjectId)
   const { members } = useMembers()
-  const { tasks: assignedTasks, updateTask: updateAssignedTask, toggleComplete: toggleAssignedComplete } = useAssignedTasks(selectedMemberId)
+  const { tasks: assignedTasks, waitingOnTasks, updateTask: updateAssignedTask, toggleComplete: toggleAssignedComplete } = useAssignedTasks(selectedMemberId)
   const { tasks: personalTasks, createTask: createPersonalTask, updateTask: updatePersonalTask, deleteTask: deletePersonalTask, toggleComplete: togglePersonalComplete } = usePersonalTasks(selectedMemberId)
 
   // Auto-select first project (only if no member is selected)
@@ -190,6 +190,7 @@ function App() {
         <MemberPage
           member={selectedMember}
           assignedTasks={assignedTasks}
+          waitingOnTasks={waitingOnTasks}
           personalTasks={personalTasks}
           projects={projects}
           onToggleAssignedComplete={toggleAssignedComplete}

@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react'
-import { Check, ArrowUp, ArrowDown, Minus, Calendar, ChevronDown, ChevronRight, Plus, Briefcase, User as UserIcon } from 'lucide-react'
+import { Check, ArrowUp, ArrowDown, Minus, Calendar, ChevronDown, ChevronRight, Plus, Briefcase, User as UserIcon, Eye } from 'lucide-react'
 import { format, isBefore, startOfToday } from 'date-fns'
 import type { Task, PersonalTask, Member, Project } from '../../lib/database.types'
 import { STATUS_CONFIG, PRIORITY_CONFIG } from '../../constants'
@@ -10,6 +10,7 @@ import { cn } from '../../lib/utils'
 interface MemberPageProps {
   member: Member
   assignedTasks: Task[]
+  waitingOnTasks: Task[]
   personalTasks: PersonalTask[]
   projects: Project[]
   onToggleAssignedComplete: (id: string) => void
@@ -31,11 +32,12 @@ const PriorityIcon = ({ priority }: { priority: string }) => {
 }
 
 export function MemberPage({
-  member, assignedTasks, personalTasks, projects,
+  member, assignedTasks, waitingOnTasks, personalTasks, projects,
   onToggleAssignedComplete, onUpdateAssignedTask,
   onTogglePersonalComplete, onCreatePersonalTask, onUpdatePersonalTask, onDeletePersonalTask,
 }: MemberPageProps) {
   const [assignedCompletedOpen, setAssignedCompletedOpen] = useState(false)
+  const [waitingOnCompletedOpen, setWaitingOnCompletedOpen] = useState(false)
   const [personalCompletedOpen, setPersonalCompletedOpen] = useState(false)
   const [isCreatingPersonal, setIsCreatingPersonal] = useState(false)
   const [newPersonalTitle, setNewPersonalTitle] = useState('')
@@ -45,6 +47,12 @@ export function MemberPage({
     const completed = assignedTasks.filter(t => t.status === 'completed')
     return { activeAssigned: active, completedAssigned: completed }
   }, [assignedTasks])
+
+  const { activeWaitingOn, completedWaitingOn } = useMemo(() => {
+    const active = waitingOnTasks.filter(t => t.status !== 'completed')
+    const completed = waitingOnTasks.filter(t => t.status === 'completed')
+    return { activeWaitingOn: active, completedWaitingOn: completed }
+  }, [waitingOnTasks])
 
   const { activePersonal, completedPersonal } = useMemo(() => {
     const active = personalTasks.filter(t => t.status !== 'completed')
@@ -145,6 +153,74 @@ export function MemberPage({
               />
             ))}
           </div>
+        )}
+
+        {/* 確認待ちタスク セクション */}
+        {(activeWaitingOn.length > 0 || completedWaitingOn.length > 0) && (
+          <>
+            <div className="px-20 pt-8 pb-2 border-t-2 border-[var(--color-border)] mt-4">
+              <div className="flex items-center gap-2 mb-4">
+                <Eye size={16} className="text-violet-500" />
+                <h3 className="text-sm font-bold text-[var(--color-foreground)]">確認待ちタスク</h3>
+                <span className="text-xs text-[var(--color-muted)]">
+                  {activeWaitingOn.length}件
+                </span>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3 px-20 py-2 text-xs font-semibold text-violet-500 tracking-wider border-b border-violet-500/10 bg-white sticky top-0 z-10">
+              <div className="w-5" />
+              <div className="flex-1">タスク名</div>
+              <div className="w-24 shrink-0">プロジェクト</div>
+              <div className="w-14 shrink-0 text-right">期日</div>
+              <div className="w-8 shrink-0 text-center">優先</div>
+              <div className="w-16 shrink-0">状態</div>
+            </div>
+
+            {activeWaitingOn.length === 0 ? (
+              <div className="px-20 py-6 text-sm text-[var(--color-muted)]">
+                確認待ちのタスクはありません
+              </div>
+            ) : (
+              activeWaitingOn.map(task => (
+                <AssignedTaskRow
+                  key={task.id}
+                  task={task}
+                  projectName={getProjectName(task.project_id)}
+                  projectColor={getProjectColor(task.project_id)}
+                  onToggleComplete={onToggleAssignedComplete}
+                  onUpdate={onUpdateAssignedTask}
+                />
+              ))
+            )}
+
+            {completedWaitingOn.length > 0 && (
+              <div className="border-t border-[var(--color-border)]/50">
+                <button
+                  onClick={() => setWaitingOnCompletedOpen(!waitingOnCompletedOpen)}
+                  className="flex items-center gap-2 px-20 py-2.5 w-full text-left hover:bg-white/40 transition-colors"
+                >
+                  {waitingOnCompletedOpen
+                    ? <ChevronDown size={14} className="text-emerald-600" />
+                    : <ChevronRight size={14} className="text-emerald-600" />
+                  }
+                  <span className="text-xs font-bold text-[var(--color-foreground)]">完了済み</span>
+                  <span className="text-xs text-white bg-emerald-500 px-1.5 py-0.5 rounded-full">
+                    {completedWaitingOn.length}件
+                  </span>
+                </button>
+                {waitingOnCompletedOpen && completedWaitingOn.map(task => (
+                  <AssignedTaskRow
+                    key={task.id}
+                    task={task}
+                    projectName={getProjectName(task.project_id)}
+                    projectColor={getProjectColor(task.project_id)}
+                    onToggleComplete={onToggleAssignedComplete}
+                  />
+                ))}
+              </div>
+            )}
+          </>
         )}
 
         {/* 個人予定 セクション */}
