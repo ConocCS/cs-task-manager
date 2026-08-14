@@ -344,7 +344,7 @@ function AssignedTaskRow({ task, projectName, projectColor, onToggleComplete, on
         {isCompleted && <Check size={12} />}
       </button>
 
-      <span className={cn('flex-1 text-sm truncate', isCompleted && 'line-through text-stone-400')}>
+      <span className={cn('flex-1 text-sm break-words', isCompleted && 'line-through text-stone-400')}>
         {task.title}
       </span>
 
@@ -453,7 +453,7 @@ function PersonalTaskRow({ task, onToggleComplete, onUpdate, onDelete }: {
       ) : (
         <span
           className={cn(
-            'flex-1 text-sm truncate',
+            'flex-1 text-sm break-words',
             isCompleted ? 'line-through text-stone-400' : 'hover:text-[var(--color-primary)] cursor-pointer'
           )}
           onClick={() => {

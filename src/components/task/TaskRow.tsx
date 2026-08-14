@@ -95,7 +95,7 @@ export function TaskRow({ task, members, onToggleComplete, onClick, onUpdate }: 
         />
       ) : (
         <span
-          className={cn('flex-1 text-sm truncate hover:text-[var(--color-primary)]', isCompleted && 'line-through text-stone-400')}
+          className={cn('flex-1 text-sm break-words hover:text-[var(--color-primary)]', isCompleted && 'line-through text-stone-400')}
           onClick={e => {
             if (!isCompleted && onUpdate) {
               e.stopPropagation()
