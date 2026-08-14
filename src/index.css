@@ -33,8 +33,6 @@ body {
 #root {
   height: 100vh;
   overflow: hidden;
-  padding-left: 10%;
-  padding-right: 10%;
 }
 
 ::-webkit-scrollbar {
