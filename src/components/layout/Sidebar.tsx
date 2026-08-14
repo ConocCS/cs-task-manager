@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { LayoutGrid, Plus, ChevronDown, Terminal, LogOut, User } from 'lucide-react'
+import { LayoutGrid, Plus, ChevronDown, Terminal, LogOut } from 'lucide-react'
 import type { Project, Member } from '../../lib/database.types'
 import { cn } from '../../lib/utils'
 import { Avatar } from '../ui/Avatar'
