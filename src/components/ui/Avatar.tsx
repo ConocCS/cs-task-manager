@@ -9,24 +9,21 @@ interface AvatarProps {
 }
 
 export function Avatar({ name, color, size = 'sm', outline = false, className }: AvatarProps) {
-  const initial = name.charAt(0)
-  const sizeClasses = size === 'sm' ? 'w-6 h-6 text-xs' : 'w-8 h-8 text-sm'
+  const sizeClasses = size === 'sm' ? 'w-5 h-5' : 'w-6 h-6'
 
   return (
     <div
       className={cn(
-        'rounded-full flex items-center justify-center font-medium shrink-0',
-        outline ? 'bg-transparent border-2' : 'text-white',
+        'rounded-full shrink-0',
+        outline ? 'border-2 bg-transparent' : '',
         sizeClasses,
         className
       )}
       style={outline
-        ? { borderColor: color, color: color }
+        ? { borderColor: color }
         : { backgroundColor: color }
       }
       title={name}
-    >
-      {initial}
-    </div>
+    />
   )
 }
