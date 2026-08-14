@@ -9,6 +9,7 @@ import { cn } from '../../lib/utils'
 interface TaskRowProps {
   task: Task
   members: Member[]
+  currentMemberId?: string | null
   onToggleComplete: (id: string) => void
   onClick: (task: Task) => void
   onUpdate?: (id: string, updates: Record<string, unknown>) => void
@@ -23,7 +24,7 @@ const PriorityIcon = ({ priority }: { priority: Task['priority'] }) => {
   }
 }
 
-export function TaskRow({ task, members, onToggleComplete, onClick, onUpdate }: TaskRowProps) {
+export function TaskRow({ task, members, currentMemberId, onToggleComplete, onClick, onUpdate }: TaskRowProps) {
   const [isEditingTitle, setIsEditingTitle] = useState(false)
   const [editTitle, setEditTitle] = useState(task.title)
   const [isEditingAssignee, setIsEditingAssignee] = useState(false)
@@ -37,6 +38,7 @@ export function TaskRow({ task, members, onToggleComplete, onClick, onUpdate }: 
   const statusConfig = STATUS_CONFIG[task.status]
   const isOverdue = task.due_date && task.status !== 'completed' && isBefore(new Date(task.due_date), startOfToday())
   const isCompleted = task.status === 'completed'
+  const isMine = currentMemberId ? (task.assignee_id === currentMemberId || task.waiting_on_id === currentMemberId) : false
 
   useEffect(() => {
     if (isEditingTitle && inputRef.current) {
@@ -63,7 +65,10 @@ export function TaskRow({ task, members, onToggleComplete, onClick, onUpdate }: 
 
   return (
     <div
-      className="group flex items-center gap-3 px-4 md:px-10 lg:px-20 py-3.5 hover:bg-white/60 cursor-pointer border-b border-[var(--color-border)]/50 transition-all"
+      className={cn(
+        'group flex items-center gap-3 px-4 md:px-10 lg:px-20 py-3.5 hover:bg-white/60 cursor-pointer border-b border-[var(--color-border)]/50 transition-all',
+        isMine && !isCompleted && 'border-l-3 border-l-[var(--color-primary)] bg-orange-50/40'
+      )}
       onClick={() => onClick(task)}
     >
       <button

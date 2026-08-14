@@ -8,6 +8,7 @@ interface TaskListViewProps {
   tasks: Task[]
   completedTasks: Task[]
   members: Member[]
+  currentMemberId: string | null
   onToggleComplete: (id: string) => void
   onTaskClick: (task: Task) => void
   onUpdateTask: (id: string, updates: Record<string, unknown>) => void
@@ -15,14 +16,14 @@ interface TaskListViewProps {
 }
 
 export function TaskListView({
-  tasks, completedTasks, members,
+  tasks, completedTasks, members, currentMemberId,
   onToggleComplete, onTaskClick, onUpdateTask, onCreateTask,
 }: TaskListViewProps) {
   const [completedOpen, setCompletedOpen] = useState(false)
 
   return (
     <div className="flex-1 overflow-y-auto">
-      <div className="flex items-center gap-3 px-4 md:px-10 lg:px-4 md:px-10 lg:px-20 py-3 text-xs font-semibold text-[var(--color-primary)] tracking-wider border-b border-[var(--color-primary)]/10 bg-white sticky top-0 z-10">
+      <div className="flex items-center gap-3 px-4 md:px-10 lg:px-20 py-3 text-xs font-semibold text-[var(--color-primary)] tracking-wider border-b border-[var(--color-primary)]/10 bg-white sticky top-0 z-10">
         <div className="w-5" />
         <div className="flex-1">タスク名</div>
         <div className="w-12 md:w-16 shrink-0">担当</div>
@@ -37,6 +38,7 @@ export function TaskListView({
           key={task.id}
           task={task}
           members={members}
+          currentMemberId={currentMemberId}
           onToggleComplete={onToggleComplete}
           onClick={onTaskClick}
           onUpdate={onUpdateTask}
@@ -70,6 +72,7 @@ export function TaskListView({
                   key={task.id}
                   task={task}
                   members={members}
+                  currentMemberId={currentMemberId}
                   onToggleComplete={onToggleComplete}
                   onClick={onTaskClick}
                 />

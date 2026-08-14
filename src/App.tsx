@@ -57,6 +57,7 @@ function App() {
   }
 
   const selectedProject = projects.find(p => p.id === selectedProjectId)
+  const currentMember = members.find(m => m.email === user?.email)
   const selectedMember = members.find(m => m.id === selectedMemberId)
 
   const handleSelectProject = useCallback((id: string) => {
@@ -239,6 +240,7 @@ function App() {
               tasks={activeTasks}
               completedTasks={completedTasks}
               members={members}
+              currentMemberId={currentMember?.id ?? null}
               onToggleComplete={toggleComplete}
               onTaskClick={handleTaskClick}
               onUpdateTask={handleUpdateTask}
