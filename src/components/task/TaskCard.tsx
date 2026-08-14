@@ -15,7 +15,7 @@ interface TaskCardProps {
 const PriorityIcon = ({ priority }: { priority: Task['priority'] }) => {
   const size = 12
   switch (priority) {
-    case 'high': return <ArrowUp size={size} className="text-red-500" />
+    case 'high': return <ArrowUp size={size} className="text-orange-700" />
     case 'medium': return <Minus size={size} className="text-orange-500" />
     case 'low': return <ArrowDown size={size} className="text-stone-400" />
   }
@@ -64,7 +64,7 @@ export function TaskCard({ task, members, onClick }: TaskCardProps) {
           {task.due_date && (
             <span className={cn(
               'text-xs flex items-center gap-1',
-              isOverdue ? 'text-red-500 font-medium' : 'text-[var(--color-muted)]'
+              isOverdue ? 'text-orange-700 font-medium' : 'text-[var(--color-muted)]'
             )}>
               <Calendar size={12} />
               {format(new Date(task.due_date), 'M/d')}

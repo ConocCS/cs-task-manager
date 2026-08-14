@@ -24,7 +24,7 @@ interface MemberPageProps {
 const PriorityIcon = ({ priority }: { priority: string }) => {
   const size = 14
   switch (priority) {
-    case 'high': return <ArrowUp size={size} className="text-red-500" />
+    case 'high': return <ArrowUp size={size} className="text-orange-700" />
     case 'medium': return <Minus size={size} className="text-orange-500" />
     case 'low': return <ArrowDown size={size} className="text-stone-400" />
     default: return null
@@ -135,11 +135,11 @@ export function MemberPage({
               className="flex items-center gap-2 px-20 py-2.5 w-full text-left hover:bg-white/40 transition-colors"
             >
               {assignedCompletedOpen
-                ? <ChevronDown size={14} className="text-emerald-600" />
-                : <ChevronRight size={14} className="text-emerald-600" />
+                ? <ChevronDown size={14} className="text-[var(--color-primary)]" />
+                : <ChevronRight size={14} className="text-[var(--color-primary)]" />
               }
               <span className="text-xs font-bold text-[var(--color-foreground)]">完了済み</span>
-              <span className="text-xs text-white bg-emerald-500 px-1.5 py-0.5 rounded-full">
+              <span className="text-xs text-white bg-[var(--color-primary)] px-1.5 py-0.5 rounded-full">
                 {completedAssigned.length}件
               </span>
             </button>
@@ -160,7 +160,7 @@ export function MemberPage({
           <>
             <div className="px-20 pt-8 pb-2 border-t-2 border-[var(--color-border)] mt-4">
               <div className="flex items-center gap-2 mb-4">
-                <Eye size={16} className="text-violet-500" />
+                <Eye size={16} className="text-[var(--color-primary)]" />
                 <h3 className="text-sm font-bold text-[var(--color-foreground)]">確認待ちタスク</h3>
                 <span className="text-xs text-[var(--color-muted)]">
                   {activeWaitingOn.length}件
@@ -168,7 +168,7 @@ export function MemberPage({
               </div>
             </div>
 
-            <div className="flex items-center gap-3 px-20 py-2 text-xs font-semibold text-violet-500 tracking-wider border-b border-violet-500/10 bg-white sticky top-0 z-10">
+            <div className="flex items-center gap-3 px-20 py-2 text-xs font-semibold text-[var(--color-primary)] tracking-wider border-b border-[var(--color-primary)]/10 bg-white sticky top-0 z-10">
               <div className="w-5" />
               <div className="flex-1">タスク名</div>
               <div className="w-24 shrink-0">プロジェクト</div>
@@ -201,11 +201,11 @@ export function MemberPage({
                   className="flex items-center gap-2 px-20 py-2.5 w-full text-left hover:bg-white/40 transition-colors"
                 >
                   {waitingOnCompletedOpen
-                    ? <ChevronDown size={14} className="text-emerald-600" />
-                    : <ChevronRight size={14} className="text-emerald-600" />
+                    ? <ChevronDown size={14} className="text-[var(--color-primary)]" />
+                    : <ChevronRight size={14} className="text-[var(--color-primary)]" />
                   }
                   <span className="text-xs font-bold text-[var(--color-foreground)]">完了済み</span>
-                  <span className="text-xs text-white bg-emerald-500 px-1.5 py-0.5 rounded-full">
+                  <span className="text-xs text-white bg-[var(--color-primary)] px-1.5 py-0.5 rounded-full">
                     {completedWaitingOn.length}件
                   </span>
                 </button>
@@ -227,7 +227,7 @@ export function MemberPage({
         <div className="px-20 pt-8 pb-2 border-t-2 border-[var(--color-border)] mt-4">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <UserIcon size={16} className="text-blue-500" />
+              <UserIcon size={16} className="text-[var(--color-primary)]" />
               <h3 className="text-sm font-bold text-[var(--color-foreground)]">個人予定</h3>
               <span className="text-xs text-[var(--color-muted)]">
                 {activePersonal.length}件
@@ -237,7 +237,7 @@ export function MemberPage({
         </div>
 
         {/* 個人予定 ヘッダー */}
-        <div className="flex items-center gap-3 px-20 py-2 text-xs font-semibold text-blue-500 tracking-wider border-b border-blue-500/10 bg-white sticky top-0 z-10">
+        <div className="flex items-center gap-3 px-20 py-2 text-xs font-semibold text-[var(--color-primary)] tracking-wider border-b border-[var(--color-primary)]/10 bg-white sticky top-0 z-10">
           <div className="w-5" />
           <div className="flex-1">予定名</div>
           <div className="w-14 shrink-0 text-right">期日</div>
@@ -270,17 +270,17 @@ export function MemberPage({
               }}
               onBlur={handleCreatePersonal}
               placeholder="予定名を入力..."
-              className="w-full text-sm px-4 py-3 border-2 border-blue-500 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+              className="w-full text-sm px-4 py-3 border-2 border-[var(--color-primary)] rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/20"
             />
           </div>
         ) : (
-          <div className="flex justify-end px-20 py-4">
+          <div className="flex justify-end px-20 py-3">
             <button
               onClick={() => setIsCreatingPersonal(true)}
-              className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-bold text-white bg-blue-500 rounded-xl hover:opacity-90 transition-opacity shadow-md"
+              className="w-8 h-8 flex items-center justify-center text-[var(--color-primary)] border-2 border-[var(--color-primary)]/30 rounded-lg hover:bg-[var(--color-primary)]/5 transition-colors"
+              title="個人予定を追加"
             >
               <Plus size={18} strokeWidth={2.5} />
-              個人予定を追加
             </button>
           </div>
         )}
@@ -293,11 +293,11 @@ export function MemberPage({
               className="flex items-center gap-2 px-20 py-2.5 w-full text-left hover:bg-white/40 transition-colors"
             >
               {personalCompletedOpen
-                ? <ChevronDown size={14} className="text-emerald-600" />
-                : <ChevronRight size={14} className="text-emerald-600" />
+                ? <ChevronDown size={14} className="text-[var(--color-primary)]" />
+                : <ChevronRight size={14} className="text-[var(--color-primary)]" />
               }
               <span className="text-xs font-bold text-[var(--color-foreground)]">完了済み</span>
-              <span className="text-xs text-white bg-emerald-500 px-1.5 py-0.5 rounded-full">
+              <span className="text-xs text-white bg-[var(--color-primary)] px-1.5 py-0.5 rounded-full">
                 {completedPersonal.length}件
               </span>
             </button>
@@ -337,7 +337,7 @@ function AssignedTaskRow({ task, projectName, projectColor, onToggleComplete, on
         className={cn(
           'w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all',
           isCompleted
-            ? 'bg-emerald-500 border-emerald-500 text-white'
+            ? 'bg-[var(--color-primary)] border-[var(--color-primary)] text-white'
             : 'border-stone-300 hover:border-[var(--color-primary)] hover:bg-orange-50'
         )}
       >
@@ -360,7 +360,7 @@ function AssignedTaskRow({ task, projectName, projectColor, onToggleComplete, on
         <span
           className={cn(
             'text-xs flex items-center justify-end gap-1',
-            isOverdue ? 'text-red-500 font-medium' :
+            isOverdue ? 'text-orange-700 font-medium' :
             task.due_date ? 'text-[var(--color-muted)]' :
             'text-stone-300'
           )}
@@ -429,8 +429,8 @@ function PersonalTaskRow({ task, onToggleComplete, onUpdate, onDelete }: {
         className={cn(
           'w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all',
           isCompleted
-            ? 'bg-emerald-500 border-emerald-500 text-white'
-            : 'border-blue-300 hover:border-blue-500 hover:bg-blue-50'
+            ? 'bg-[var(--color-primary)] border-[var(--color-primary)] text-white'
+            : 'border-stone-300 hover:border-[var(--color-primary)] hover:bg-orange-50'
         )}
       >
         {isCompleted && <Check size={12} />}
@@ -448,13 +448,13 @@ function PersonalTaskRow({ task, onToggleComplete, onUpdate, onDelete }: {
             if (e.key === 'Escape') { setEditTitle(task.title); setIsEditingTitle(false) }
           }}
           onBlur={handleTitleSubmit}
-          className="flex-1 text-sm px-2 py-1 border border-blue-500 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+          className="flex-1 text-sm px-2 py-1 border border-[var(--color-primary)] rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/20"
         />
       ) : (
         <span
           className={cn(
             'flex-1 text-sm truncate',
-            isCompleted ? 'line-through text-stone-400' : 'hover:text-blue-500 cursor-pointer'
+            isCompleted ? 'line-through text-stone-400' : 'hover:text-[var(--color-primary)] cursor-pointer'
           )}
           onClick={() => {
             if (!isCompleted && onUpdate) {
@@ -480,14 +480,14 @@ function PersonalTaskRow({ task, onToggleComplete, onUpdate, onDelete }: {
               setIsEditingDueDate(false)
             }}
             onBlur={() => setIsEditingDueDate(false)}
-            className="w-full text-xs border border-blue-500 rounded-md px-1 py-1 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+            className="w-full text-xs border border-[var(--color-primary)] rounded-md px-1 py-1 bg-white focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/20"
           />
         ) : (
           <span
             className={cn(
               'text-xs flex items-center justify-end gap-1 cursor-pointer rounded-md px-1.5 py-1 transition-colors',
-              isOverdue ? 'text-red-500 font-medium hover:bg-red-50' :
-              task.due_date ? 'text-[var(--color-muted)] hover:bg-blue-50' :
+              isOverdue ? 'text-orange-700 font-medium hover:bg-orange-50' :
+              task.due_date ? 'text-[var(--color-muted)] hover:bg-orange-50' :
               'text-stone-300 hover:bg-stone-100'
             )}
             onClick={() => onUpdate && setIsEditingDueDate(true)}
@@ -507,7 +507,7 @@ function PersonalTaskRow({ task, onToggleComplete, onUpdate, onDelete }: {
           <select
             value={task.status}
             onChange={e => onUpdate(task.id, { status: e.target.value })}
-            className="text-xs px-1.5 py-1 border border-[var(--color-border)] rounded-md bg-white focus:outline-none focus:ring-1 focus:ring-blue-500/30 cursor-pointer"
+            className="text-xs px-1.5 py-1 border border-[var(--color-border)] rounded-md bg-white focus:outline-none focus:ring-1 focus:ring-[var(--color-primary)]/30 cursor-pointer"
           >
             <option value="not_started">未着手</option>
             <option value="in_progress">進行中</option>

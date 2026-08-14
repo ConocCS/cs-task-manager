@@ -17,7 +17,7 @@ interface TaskRowProps {
 const PriorityIcon = ({ priority }: { priority: Task['priority'] }) => {
   const size = 14
   switch (priority) {
-    case 'high': return <ArrowUp size={size} className="text-red-500" />
+    case 'high': return <ArrowUp size={size} className="text-orange-700" />
     case 'medium': return <Minus size={size} className="text-orange-500" />
     case 'low': return <ArrowDown size={size} className="text-stone-400" />
   }
@@ -71,7 +71,7 @@ export function TaskRow({ task, members, onToggleComplete, onClick, onUpdate }: 
         className={cn(
           'w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all',
           isCompleted
-            ? 'bg-emerald-500 border-emerald-500 text-white'
+            ? 'bg-[var(--color-primary)] border-[var(--color-primary)] text-white'
             : 'border-stone-300 hover:border-[var(--color-primary)] hover:bg-orange-50'
         )}
       >
@@ -197,7 +197,7 @@ export function TaskRow({ task, members, onToggleComplete, onClick, onUpdate }: 
           <span
             className={cn(
               'text-xs flex items-center justify-end gap-1 cursor-pointer rounded-md px-1.5 py-1 transition-colors',
-              isOverdue ? 'text-red-500 font-medium hover:bg-red-50' :
+              isOverdue ? 'text-orange-700 font-medium hover:bg-orange-50' :
               task.due_date ? 'text-[var(--color-muted)] hover:bg-[var(--color-primary)]/10' :
               'text-stone-300 hover:bg-stone-100'
             )}

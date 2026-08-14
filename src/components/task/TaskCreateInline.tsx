@@ -20,13 +20,13 @@ export function TaskCreateInline({ onSubmit }: TaskCreateInlineProps) {
 
   if (!isEditing) {
     return (
-      <div className="flex justify-end px-20 py-5">
+      <div className="flex justify-end px-20 py-3">
         <button
           onClick={() => setIsEditing(true)}
-          className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-bold text-white bg-[var(--color-primary)] rounded-xl hover:opacity-90 transition-opacity shadow-md"
+          className="w-8 h-8 flex items-center justify-center text-[var(--color-primary)] border-2 border-[var(--color-primary)]/30 rounded-lg hover:bg-[var(--color-primary)]/5 transition-colors"
+          title="タスクを追加"
         >
           <Plus size={18} strokeWidth={2.5} />
-          タスクを追加
         </button>
       </div>
     )

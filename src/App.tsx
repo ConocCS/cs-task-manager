@@ -29,6 +29,9 @@ function App() {
   })
   const [selectedTask, setSelectedTask] = useState<Task | null>(null)
   const [showClaudeGuide, setShowClaudeGuide] = useState(false)
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => {
+    return localStorage.getItem('cs-task-sidebar-collapsed') === 'true'
+  })
 
   // フィルタ・ソートstate
   const [filter, setFilter] = useState<FilterState>({
@@ -171,6 +174,7 @@ function App() {
           members={members}
           selectedProjectId={selectedProjectId}
           selectedMemberId={selectedMemberId}
+          collapsed={sidebarCollapsed}
           userEmail={user.email ?? null}
           onSelectProject={handleSelectProject}
           onSelectMember={handleSelectMember}
@@ -183,6 +187,12 @@ function App() {
           }}
           onOpenClaudeGuide={() => setShowClaudeGuide(true)}
           onSignOut={signOut}
+          onToggleCollapse={() => {
+            setSidebarCollapsed(prev => {
+              localStorage.setItem('cs-task-sidebar-collapsed', String(!prev))
+              return !prev
+            })
+          }}
         />
       }
     >

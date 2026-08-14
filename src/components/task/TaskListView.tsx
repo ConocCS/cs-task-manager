@@ -52,13 +52,13 @@ export function TaskListView({
             className="flex items-center gap-2.5 px-20 py-3.5 w-full text-left hover:bg-white/40 transition-colors"
           >
             {completedOpen
-              ? <ChevronDown size={16} className="text-emerald-600" />
-              : <ChevronRight size={16} className="text-emerald-600" />
+              ? <ChevronDown size={16} className="text-[var(--color-primary)]" />
+              : <ChevronRight size={16} className="text-[var(--color-primary)]" />
             }
             <span className="text-sm font-bold text-[var(--color-foreground)]">
               完了済みタスク
             </span>
-            <span className="text-xs text-white bg-emerald-500 px-1.5 py-0.5 rounded-full">
+            <span className="text-xs text-white bg-[var(--color-primary)] px-1.5 py-0.5 rounded-full">
               {completedTasks.length}件
             </span>
           </button>
