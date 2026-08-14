@@ -25,6 +25,13 @@ export function Sidebar({ projects, members, selectedProjectId, selectedMemberId
   const [projectsOpen, setProjectsOpen] = useState(true)
   const [membersOpen, setMembersOpen] = useState(true)
 
+  const currentMember = members.find(m => m.email === userEmail)
+  const sortedMembers = [...members].sort((a, b) => {
+    if (a.id === currentMember?.id) return -1
+    if (b.id === currentMember?.id) return 1
+    return 0
+  })
+
   const handleCreate = () => {
     const name = newName.trim()
     if (name) {
@@ -68,26 +75,31 @@ export function Sidebar({ projects, members, selectedProjectId, selectedMemberId
 
           <div className="w-6 border-t border-white/10 my-2" />
 
-          {members.map(member => (
-            <button
-              key={member.id}
-              onClick={() => onSelectMember(member.id)}
-              className={cn(
-                'w-9 h-9 rounded-lg flex items-center justify-center shrink-0 transition-all',
-                selectedMemberId === member.id
-                  ? 'bg-[var(--color-primary)] shadow-lg shadow-orange-900/20'
-                  : 'hover:bg-[var(--color-sidebar-hover)]'
-              )}
-              title={member.name}
-            >
-              <Avatar
-                name={member.name}
-                color={selectedMemberId === member.id ? '#fff' : member.avatar_color}
-                size="sm"
-                className={cn(selectedMemberId === member.id && 'text-[var(--color-primary)]')}
-              />
-            </button>
-          ))}
+          {sortedMembers.map(member => {
+            const isMe = member.id === currentMember?.id
+            const isSelected = selectedMemberId === member.id
+            return (
+              <button
+                key={member.id}
+                onClick={() => onSelectMember(member.id)}
+                className={cn(
+                  'w-9 h-9 rounded-lg flex items-center justify-center shrink-0 transition-all',
+                  isSelected
+                    ? 'bg-[var(--color-primary)] shadow-lg shadow-orange-900/20'
+                    : 'hover:bg-[var(--color-sidebar-hover)]'
+                )}
+                title={member.name}
+              >
+                <Avatar
+                  name={member.name}
+                  color={isSelected ? '#fff' : member.avatar_color}
+                  size="sm"
+                  outline={!isMe && !isSelected}
+                  className={cn(isSelected && 'text-[var(--color-primary)]')}
+                />
+              </button>
+            )
+          })}
         </div>
       </aside>
     )
@@ -185,28 +197,31 @@ export function Sidebar({ projects, members, selectedProjectId, selectedMemberId
           </button>
         </div>
 
-        {membersOpen && members.map(member => (
-          <button
-            key={member.id}
-            onClick={() => onSelectMember(member.id)}
-            className={cn(
-              'w-[calc(100%-40px)] text-left px-4 py-2.5 mx-5 rounded-lg text-sm flex items-center gap-2.5 transition-all',
-              selectedMemberId === member.id
-                ? 'bg-blue-500 text-white font-medium shadow-lg shadow-blue-900/20'
-                : 'text-white/70 hover:bg-[var(--color-sidebar-hover)] hover:text-white'
-            )}
-          >
-            <Avatar
-              name={member.name}
-              color={selectedMemberId === member.id ? '#fff' : member.avatar_color}
-              size="sm"
+        {membersOpen && sortedMembers.map(member => {
+          const isMe = member.id === currentMember?.id
+          const isSelected = selectedMemberId === member.id
+          return (
+            <button
+              key={member.id}
+              onClick={() => onSelectMember(member.id)}
               className={cn(
-                selectedMemberId === member.id && 'text-[var(--color-primary)]'
+                'w-[calc(100%-40px)] text-left px-4 py-2.5 mx-5 rounded-lg text-sm flex items-center gap-2.5 transition-all',
+                isSelected
+                  ? 'bg-[var(--color-primary)] text-white font-medium shadow-lg shadow-orange-900/20'
+                  : 'text-white/70 hover:bg-[var(--color-sidebar-hover)] hover:text-white'
               )}
-            />
-            <span className="truncate">{member.name}</span>
-          </button>
-        ))}
+            >
+              <Avatar
+                name={member.name}
+                color={isSelected ? '#fff' : member.avatar_color}
+                size="sm"
+                outline={!isMe && !isSelected}
+                className={cn(isSelected && 'text-[var(--color-primary)]')}
+              />
+              <span className="truncate">{member.name}</span>
+            </button>
+          )
+        })}
       </nav>
 
       <div className="px-6 py-4 border-t border-white/10 space-y-1.5">

@@ -60,7 +60,7 @@ export function TaskListView({
             <span className="text-sm font-bold text-[var(--color-foreground)]">
               完了済みタスク
             </span>
-            <span className="text-xs text-white bg-[var(--color-primary)] px-1.5 py-0.5 rounded-full">
+            <span className="text-xs text-[var(--color-muted)]">
               {completedTasks.length}件
             </span>
           </button>
