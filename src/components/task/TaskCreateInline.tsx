@@ -20,7 +20,7 @@ export function TaskCreateInline({ onSubmit }: TaskCreateInlineProps) {
 
   if (!isEditing) {
     return (
-      <div className="flex justify-end px-20 py-3">
+      <div className="flex justify-end px-4 md:px-10 lg:px-20 py-3">
         <button
           onClick={() => setIsEditing(true)}
           className="w-8 h-8 flex items-center justify-center text-[var(--color-primary)] border-2 border-[var(--color-primary)]/30 rounded-lg hover:bg-[var(--color-primary)]/5 transition-colors"
@@ -33,7 +33,7 @@ export function TaskCreateInline({ onSubmit }: TaskCreateInlineProps) {
   }
 
   return (
-    <div className="px-20 py-4">
+    <div className="px-4 md:px-10 lg:px-20 py-4">
       <input
         autoFocus
         type="text"

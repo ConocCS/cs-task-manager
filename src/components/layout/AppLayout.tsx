@@ -9,8 +9,8 @@ export function AppLayout({ sidebar, children }: AppLayoutProps) {
   return (
     <div className="flex h-full">
       {sidebar}
-      <div className="flex-1 p-3 overflow-hidden">
-        <main className="h-full flex flex-col bg-white rounded-2xl shadow-sm overflow-hidden">
+      <div className="flex-1 overflow-hidden">
+        <main className="h-full flex flex-col bg-white overflow-hidden">
           {children}
         </main>
       </div>
